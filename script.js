@@ -20,7 +20,7 @@ const people=[
 ['26','محمد عرفات','محامٍ','قطر','محامٍ بخبرة تتجاوز عشر سنوات في القضايا المدنية والتجارية والجنائية والعمالية في قطر، ومتمكن من الأنظمة الإلكترونية للمحاكم القطرية والنيابة العامة.']
 ];
 const network=document.getElementById('teamNetwork');
-people.forEach(p=>{const btn=document.createElement('button');btn.className='network-card reveal';const n=Number(p[0]);btn.innerHTML='<div class="network-photo portrait" data-portrait="'+n+'"></div><div class="top"><span>'+p[0]+'</span><span>'+p[3]+'</span></div><h3>'+p[1]+'</h3><p>'+p[2]+'</p>';btn.addEventListener('click',()=>openModal(p));network.appendChild(btn)});
+people.forEach(p=>{const btn=document.createElement('button');btn.className='network-card reveal';const n=Number(p[0]);btn.innerHTML='<div class="network-photo portrait" data-portrait="'+n+'"></div><div class="network-info"><div class="top"><span>'+p[0]+'</span><span>'+p[3]+'</span></div><h3>'+p[1]+'</h3><p class="network-role">'+p[2]+'</p></div><div class="network-bio"><span>نبذة الخبرة</span><h3>'+p[1]+'</h3><p>'+p[4]+'</p></div>';btn.addEventListener('click',()=>openModal(p));network.appendChild(btn)});
 const modal=document.getElementById('personModal');
 function openModal(p){document.getElementById('modalIndex').textContent=p[0];document.getElementById('modalCountry').textContent=p[3];document.getElementById('modalName').textContent=p[1];document.getElementById('modalRole').textContent=p[2];document.getElementById('modalBio').textContent=p[4];modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
