@@ -1,5 +1,5 @@
-# Middle East & Partners — Redesign
+# Middle East & Partners
 
-Arabic responsive redesign for Middle East & Partners Law Firm.
+Arabic responsive design for Middle East & Partners Law Firm.
 
 Static website ready for Vercel, Netlify, or GitHub Pages.
