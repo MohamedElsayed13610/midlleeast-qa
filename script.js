@@ -20,7 +20,7 @@ const people=[
 ['26','محمد عرفات','محامٍ','قطر','محامٍ بخبرة تتجاوز عشر سنوات في القضايا المدنية والتجارية والجنائية والعمالية في قطر، ومتمكن من الأنظمة الإلكترونية للمحاكم القطرية والنيابة العامة.']
 ];
 const network=document.getElementById('teamNetwork');
-people.forEach(p=>{const btn=document.createElement('button');btn.className='network-card reveal';btn.innerHTML='<div class="top"><span>'+p[0]+'</span><span>'+p[3]+'</span></div><h3>'+p[1]+'</h3><p>'+p[2]+'</p>';btn.addEventListener('click',()=>openModal(p));network.appendChild(btn)});
+people.forEach(p=>{const btn=document.createElement('button');btn.className='network-card reveal';const n=Number(p[0]);btn.innerHTML='<div class="network-photo portrait" data-portrait="'+n+'"></div><div class="top"><span>'+p[0]+'</span><span>'+p[3]+'</span></div><h3>'+p[1]+'</h3><p>'+p[2]+'</p>';btn.addEventListener('click',()=>openModal(p));network.appendChild(btn)});
 const modal=document.getElementById('personModal');
 function openModal(p){document.getElementById('modalIndex').textContent=p[0];document.getElementById('modalCountry').textContent=p[3];document.getElementById('modalName').textContent=p[1];document.getElementById('modalRole').textContent=p[2];document.getElementById('modalBio').textContent=p[4];modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
@@ -32,3 +32,32 @@ menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.
 nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
 const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+async function loadTeamPortraits(){
+  const files=[1,2,3,4,5,6].map(n=>'assets/team-sprite.part'+n+'.txt');
+  const parts=await Promise.all(files.map(async path=>{
+    const res=await fetch(path);
+    if(!res.ok) throw new Error('Failed to load '+path);
+    return (await res.text()).trim();
+  }));
+  const sprite=new Image();
+  sprite.src='data:image/webp;base64,'+parts.join('');
+  await sprite.decode();
+  document.querySelectorAll('[data-portrait]').forEach(el=>{
+    const portrait=Math.max(1,Math.min(26,Number(el.dataset.portrait)||1))-1;
+    const sx=(portrait%5)*150;
+    const sy=Math.floor(portrait/5)*190;
+    const canvas=document.createElement('canvas');
+    canvas.width=150;
+    canvas.height=190;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(sprite,sx,sy,150,190,0,0,150,190);
+    const img=document.createElement('img');
+    img.src=canvas.toDataURL('image/webp',0.9);
+    img.alt='';
+    img.loading=portrait<7?'eager':'lazy';
+    img.decoding='async';
+    el.replaceChildren(img);
+  });
+}
+loadTeamPortraits().catch(err=>console.warn('Team portraits:',err));
