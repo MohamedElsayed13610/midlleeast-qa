@@ -6,30 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
-import { Plus, Newspaper, Users, LogOut, ExternalLink, Pencil, Trash2, Upload, Search, X, Check, FileText } from "lucide-react";
+import { Plus, Newspaper, Users, LogOut, ExternalLink, Pencil, Trash2, Upload, Search, X, Check, FileText, CalendarCheck } from "lucide-react";
 import { compactOnlySlugs } from "@/lib/cms-types";
 import type { CmsNews, CmsTeam } from "@/lib/cms-types";
+import { api, ApiError, json } from "@/lib/admin-client";
+import AdminConsultations from "@/components/admin-consultations";
 type Kind="news"|"team";
 type Item=CmsNews|CmsTeam;
 type Fields=Record<string,string|number|boolean|null>;
-class ApiError extends Error { constructor(public status:number,message:string) {super(message);} }
-type ApiResponse={error?:string;email:string;items:unknown[];url:string;width:number;height:number};
-async function api(path:string,options:RequestInit={}):Promise<ApiResponse> {
-  const response=await fetch(`/api/admin/${path}`,{...options,credentials:"same-origin",cache:"no-store"});
-  const data=await response.json().catch(()=>({error:"تعذّر الاتصال. حاول مرة أخرى."})) as ApiResponse;
-  if(!response.ok) throw new ApiError(response.status,data.error || "تعذّر إتمام العملية.");
-  return data;
-}
-const json=(method:string,body:unknown)=>({method,headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
 function newFields(kind:Kind):Fields {
   const slug=`${kind}-${crypto.randomUUID().slice(0,8)}`;
   return kind==="news" ? {slug,title:"",excerpt:"",content:"",category:"أخبار المكتب",author:"",image_url:"",image_alt:"",published_at:new Date().toISOString().slice(0,10),status:"draft"} : {slug,name:"",role:"",office:"قطر",category:"محامٍ",practice:"",bio:"",image_url:"",image_width:1,image_height:1,featured:false,is_active:true,sort_order:100};
 }
 const titleOf=(item:Item)=>"title" in item ? item.title : item.name;
-export default function AdminDashboard({configured,previewTeam,previewNews}:{configured:boolean;previewTeam:CmsTeam[];previewNews:CmsNews[]}) {
+export default function AdminDashboard({configured,previewTeam,previewNews,initialView="content"}:{configured:boolean;previewTeam:CmsTeam[];previewNews:CmsNews[];initialView?:"content"|"consultations"}) {
   const [email,setEmail]=useState<string|null>(configured ? null : "preview");
   const [checking,setChecking]=useState(configured);
-  const [kind,setKind]=useState<Kind>("news");
+  const [kind,setKind]=useState<Kind>("news"); const [view,setView]=useState<"content"|"consultations">(initialView); const [consultNew,setConsultNew]=useState(0);
+  const showView=(next:"content"|"consultations",path:string)=>{setView(next);setError("");try{window.history.replaceState(null,"",path);}catch{/* URL sync is cosmetic */}};
   const [news,setNews]=useState<CmsNews[]>(previewNews); const [team,setTeam]=useState<CmsTeam[]>(previewTeam);
   const [search,setSearch]=useState(""); const [filter,setFilter]=useState("");
   const [busy,setBusy]=useState(false); const [message,setMessage]=useState(""); const [error,setError]=useState("");
@@ -37,6 +31,8 @@ export default function AdminDashboard({configured,previewTeam,previewNews}:{con
   const [loaded,setLoaded]=useState(!configured); const deleteDialog=useRef<HTMLDialogElement>(null);
   async function reload() {
     const [a,b]=await Promise.all([api("content/news"),api("content/team")]);setNews(a.items as CmsNews[]);setTeam(b.items as CmsTeam[]);setLoaded(true);
+    // Sidebar badge only; consultations failing (e.g. migration not applied yet) must never block news/team.
+    api("consultations").then(c=>setConsultNew((c.items as {status:string}[]).filter(i=>i.status==="new").length)).catch(()=>undefined);
   }
   function report(value:unknown) {
     if(value instanceof ApiError && [401,403].includes(value.status)) {setEmail(null);setLoaded(false);setNews([]);setTeam([]);setEditor(null);}
@@ -69,16 +65,18 @@ export default function AdminDashboard({configured,previewTeam,previewNews}:{con
   if(checking) return <main className="cms-login" dir="rtl"><p role="status">جارٍ التحقق من الجلسة…</p></main>;
   if(!email) return <main className="cms-login" dir="rtl"><div className="cms-login-card"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt="شعار المكتب"/><span className="cms-eyebrow">الشرق الأوسط وشركاؤه</span><h1>إدارة الموقع</h1><p>سجّل الدخول لإدارة أخبار المكتب وفريقه.</p><form onSubmit={login}><label>البريد الإلكتروني<Input name="email" type="email" dir="ltr" autoComplete="username" required maxLength={254}/></label><label>كلمة المرور<Input name="password" type="password" autoComplete="current-password" required maxLength={200}/></label>{error && <p className="cms-error" role="alert">{error}</p>}<Button type="submit" className="cms-primary" disabled={busy}>{busy ? "جارٍ تسجيل الدخول…" : "تسجيل الدخول"}</Button></form><Link href="/">العودة إلى الموقع <ExternalLink size={15}/></Link><small>الحسابات مخصصة لمسؤولي المكتب.</small></div></main>;
   return <main className="cms-shell" dir="rtl">
-    <aside className="cms-sidebar"><Link className="cms-brand" href="/"><img src="/assets/brand/logo-white.webp" width="44" height="44" alt=""/><span>الشرق الأوسط وشركاؤه<small>إدارة المحتوى</small></span></Link><nav aria-label="أقسام الإدارة">{([["news","الأخبار",Newspaper,news.length],["team","الفريق",Users,team.length]] as const).map(([value,label,Icon,count])=><button key={value} aria-current={kind===value ? "page" : undefined} onClick={()=>{setKind(value);setSearch("");setFilter("");setError("");}}><Icon size={20}/>{label}<span>{count}</span></button>)}</nav><div className="cms-sidebar-bottom"><Link href="/" target="_blank">عرض الموقع <ExternalLink size={16}/></Link>{configured && <><small dir="ltr">{email}</small><button onClick={logout} disabled={busy}><LogOut size={16}/> تسجيل الخروج</button></>}</div></aside>
+    <aside className="cms-sidebar"><Link className="cms-brand" href="/"><img src="/assets/brand/logo-white.webp" width="44" height="44" alt=""/><span>الشرق الأوسط وشركاؤه<small>إدارة المحتوى</small></span></Link><nav aria-label="أقسام الإدارة">{([["news","الأخبار",Newspaper,news.length],["team","الفريق",Users,team.length]] as const).map(([value,label,Icon,count])=><button key={value} aria-current={view==="content" && kind===value ? "page" : undefined} onClick={()=>{setKind(value);setSearch("");setFilter("");showView("content","/admin");}}><Icon size={20}/>{label}<span>{count}</span></button>)}<button aria-current={view==="consultations" ? "page" : undefined} onClick={()=>showView("consultations","/admin/consultations")}><CalendarCheck size={20}/>الاستشارات{consultNew>0 && <span aria-label={`${consultNew} طلبات جديدة`}>{consultNew}</span>}</button></nav><div className="cms-sidebar-bottom"><Link href="/" target="_blank">عرض الموقع <ExternalLink size={16}/></Link>{configured && <><small dir="ltr">{email}</small><button onClick={logout} disabled={busy}><LogOut size={16}/> تسجيل الخروج</button></>}</div></aside>
     <div className="cms-main"><header className="cms-topbar"><span><span className="cms-dot"/>{configured ? "لوحة إدارة المكتب" : "معاينة لوحة الإدارة"}</span><div><Link href="/" target="_blank">الموقع <ExternalLink size={15}/></Link>{configured && <Button className="cms-mobile-logout" variant="ghost" aria-label="تسجيل الخروج" onClick={logout} disabled={busy}><LogOut size={16}/></Button>}</div></header>
       <div className="cms-content">
         {!configured && <div className="cms-setup" role="status"><strong>اللوحة جاهزة للتوصيل</strong><p>هذه معاينة باستخدام محتوى الموقع الحالي. الحفظ ورفع الصور وتسجيل الدخول سيعملون بعد تفعيل قاعدة بيانات المكتب وحساب المسؤول.</p></div>}
+        {view==="consultations" ? <AdminConsultations configured={configured} onAuthError={report} onNewCount={setConsultNew}/> : <>
         <div className="cms-heading"><div><span className="cms-eyebrow">محتوى المكتب</span><h1>{kind==="news" ? "الأخبار والمقالات" : "فريقنا"}</h1><p>{kind==="news" ? "حدّث أخبار المكتب من مكان واحد." : "صور الفريق، بياناته وخبراته، كما تظهر على الموقع."}</p></div><Button className="cms-primary" disabled={!loaded || busy} onClick={()=>{setEditor({kind,item:null});setMessage("");setError("");}}><Plus size={18}/>{kind==="news" ? "إضافة خبر" : "إضافة عضو"}</Button></div>
         <div className="cms-stats">{kind==="news" ? <><Stat label="إجمالي الأخبار" value={news.length} icon={<Newspaper size={20}/>}/><Stat label="أخبار منشورة" value={news.filter(i=>i.status==="published").length} icon={<Check size={20}/>}/><Stat label="مسودات" value={news.filter(i=>i.status==="draft").length} icon={<FileText size={20}/>}/></> : <><Stat label="أعضاء الفريق" value={team.length} icon={<Users size={20}/>}/><Stat label="فريق قطر الظاهر" value={team.filter(i=>i.is_active && i.office==="قطر").length} icon={<Check size={20}/>}/><Stat label="أعضاء مخفيون" value={team.filter(i=>!i.is_active).length} icon={<FileText size={20}/>}/></>}</div>
         {error && <p className="cms-error" role="alert">{error}</p>}{message && <p className="cms-success" role="status">{message}</p>}
         <section className="cms-panel" aria-label={kind==="news" ? "قائمة الأخبار" : "قائمة الفريق"}><div className="cms-toolbar"><label className="cms-search"><Search size={17}/><Input aria-label="البحث بالاسم أو العنوان" placeholder={kind==="news" ? "ابحث عن خبر…" : "ابحث عن عضو…"} value={search} onChange={e=>setSearch(e.target.value)}/></label><NativeSelect aria-label="تصفية الحالة" value={filter} onChange={e=>setFilter(e.target.value)}><NativeSelectOption value="">كل الحالات</NativeSelectOption>{(kind==="news" ? [["published","منشور"],["draft","مسودة"]] : [["active","ظاهر"],["hidden","مخفي"]]).map(([v,l])=><NativeSelectOption key={v} value={v}>{l}</NativeSelectOption>)}</NativeSelect>{configured && <Button variant="outline" disabled={busy} onClick={async()=>{setBusy(true);setError("");try{await reload();}catch(e){report(e);}finally{setBusy(false);}}}>تحديث القائمة</Button>}</div>
           {!loaded ? <div className="cms-empty">تعذّر تحميل المحتوى. اضغط تحديث القائمة للمحاولة مرة أخرى.</div> : visible.length ? <div className="cms-table-wrap"><table className="cms-table"><thead><tr><th>{kind==="news" ? "الخبر" : "العضو"}</th><th>{kind==="news" ? "التاريخ" : "المكتب / الظهور"}</th><th>الحالة</th><th>إدارة</th></tr></thead><tbody>{visible.map(item=><tr key={item.id}><td><div className="cms-item-name">{item.image_url ? <img src={item.image_url} alt="" width="44" height="44" loading="lazy"/> : <span className="cms-item-icon"><Newspaper size={20}/></span>}<div><strong>{titleOf(item)}</strong><small>{"title" in item ? item.category : item.role}</small></div></div></td><td>{"title" in item ? item.published_at ? new Date(item.published_at).toLocaleDateString("ar-QA",{timeZone:"UTC"}) : "بدون تاريخ" : <>{item.office}<small>{item.featured ? "كارت الإدارة" : "كارت الفريق"}</small></>}</td><td><span className={`cms-badge ${("status" in item ? item.status==="published" : item.is_active) ? "live" : "draft"}`}>{"status" in item ? item.status==="published" ? "منشور" : "مسودة" : item.is_active ? "ظاهر" : "مخفي"}</span></td><td><div className="cms-actions"><Button variant="ghost" size="icon" disabled={busy} aria-label={`تعديل ${titleOf(item)}`} onClick={()=>{setEditor({kind,item});setMessage("");}}><Pencil size={16}/></Button><Button variant="ghost" size="icon" disabled={!configured || busy} aria-label={`حذف ${titleOf(item)}`} onClick={()=>setDeleting(item)}><Trash2 size={16}/></Button>{"status" in item && item.status==="published" && <Link aria-label={`عرض ${item.title}`} href={`/news/${item.slug}`} target="_blank"><ExternalLink size={16}/></Link>}</div></td></tr>)}</tbody></table></div> : <div className="cms-empty"><Search size={28}/><strong>{items.length ? "لا توجد نتائج مطابقة" : kind==="news" ? "ابدأ بأول خبر للمكتب" : "أضف أول عضو للفريق"}</strong><p>{items.length ? "جرّب اسمًا آخر أو غيّر الحالة." : "اضغط زر الإضافة بالأعلى لإدخال البيانات."}</p></div>}
         </section><p className="cms-footnote">{kind==="news" ? "المسودات خاصة بالإدارة. الأخبار المنشورة تظهر على الموقع وفي صفحات الأخبار." : "محمد عصام قبّاوة أول الكروت الصغيرة في فريق قطر، وعمر صقر ضمن الفريق. تصميم كروت الإدارة ثابت."}</p>
+        </>}
       </div>
     </div>
     {editor && <ContentEditor key={`${editor.kind}-${editor.item?.id || "new"}`} kind={editor.kind} item={editor.item} configured={configured} onClose={()=>setEditor(null)} onSaved={async()=>{setEditor(null);setMessage("تم حفظ التغييرات. ستظهر التحديثات عند فتح الموقع أو تحديث الصفحة.");try{await reload();}catch(e){report(e);}}} onAuthError={report}/>}

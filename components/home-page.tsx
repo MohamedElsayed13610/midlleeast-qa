@@ -55,11 +55,12 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         </a>
         <nav className="desktop-nav" aria-label="التنقل الرئيسي"><a href="#about">المكتب</a><a href="#services">الخبرات</a><a href="#team">الفريق</a><a href="#knowledge">الأخبار</a><a href="#offices">المكاتب</a></nav>
         <div className="header-actions">
-          <a className="header-cta" href="#contact">استشارة قانونية <ArrowUpLeft size={16} /></a>
+          <Link className="header-cta" href="/consultation">استشارة قانونية <ArrowUpLeft size={16} /></Link>
           <button className="menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
         </div>
         <nav className={`mobile-nav ${menuOpen ? "is-open" : ""}`} aria-label="قائمة الموبايل" aria-hidden={!menuOpen}>
           {[["about","المكتب"],["services","الخبرات"],["team","الفريق"],["knowledge","الأخبار والسوابق"],["offices","المكاتب"],["contact","تواصل معنا"]].map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
+          <Link href="/consultation" onClick={() => setMenuOpen(false)}>احجز استشارة قانونية</Link>
         </nav>
       </header>
 
@@ -138,7 +139,7 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
 
       <section className="insight section-pad"><div className="insight-mark" aria-hidden="true">§</div><div className="insight-copy reveal" data-reveal><span>رؤية قانونية</span><h2>القرار الأفضل يبدأ<br />بسؤال قانوني أدق.</h2><p>نبحث، نحلل، ونضع أمامك مسارًا واضحًا يحمي مصالحك ويخدم أهدافك.</p></div><div className="insight-rule reveal" data-reveal><span>بحث</span><i /><span>تحليل</span><i /><span>استراتيجية</span><i /><span>تنفيذ</span></div></section>
 
-      <section id="contact" className="contact section-pad"><div className="contact-lines" aria-hidden="true" /><div className="contact-head reveal" data-reveal><div className="section-index light"><span>06</span><p>تواصل معنا</p></div><h2>ابدأ من<br /><em>الخطوة الصحيحة.</em></h2></div><div className="contact-panel reveal delay-1" data-reveal><p>شاركنا طبيعة المسألة القانونية، وسيتواصل معك الفريق لتحديد المسار المناسب.</p><a className="button button-gold" href="https://wa.me/97477733348" target="_blank" rel="noreferrer">تواصل عبر واتساب <ArrowUpLeft size={18} /></a><div className="contact-details"><a href="tel:+97440026487">+974 4002 6487</a><a href="tel:+97477733348">+974 7773 3348</a><a href="mailto:info@middleeast-qa.com">info@middleeast-qa.com</a></div></div></section>
+      <section id="contact" className="contact section-pad"><div className="contact-lines" aria-hidden="true" /><div className="contact-head reveal" data-reveal><div className="section-index light"><span>06</span><p>تواصل معنا</p></div><h2>ابدأ من<br /><em>الخطوة الصحيحة.</em></h2></div><div className="contact-panel reveal delay-1" data-reveal><p>شاركنا طبيعة المسألة القانونية، وسيتواصل معك الفريق لتحديد المسار المناسب.</p><div className="contact-actions"><Link className="button button-gold" href="/consultation">احجز استشارة قانونية <ArrowUpLeft size={18} /></Link><a className="button button-outline" href="https://wa.me/97477733348" target="_blank" rel="noreferrer">تواصل عبر واتساب <ArrowUpLeft size={18} /></a></div><div className="contact-details"><a href="tel:+97440026487">+974 4002 6487</a><a href="tel:+97477733348">+974 7773 3348</a><a href="mailto:info@middleeast-qa.com">info@middleeast-qa.com</a></div></div></section>
 
       <footer><a href="#top" className="footer-brand"><img src="/assets/brand/logo-white.webp" width="45" height="45" loading="lazy" alt="" /><span>الشرق الأوسط وشركاؤه<small>للمحاماة والتحكيم</small></span></a><p>© 2026 جميع الحقوق محفوظة. <Link href="/team">فريق المحامين والمستشارين</Link></p><a href="#top" className="back-top">العودة للأعلى <ArrowUpLeft size={16} /></a></footer>
     </main>
