@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { legalServices } from "@/lib/services";
-import { allPeople, qatarFeaturedPeople, qatarRemainingPeople, regionalPeople } from "@/lib/team";
+import { groupTeam, teamImageSources } from "@/lib/cms-types";
+import type { CmsNews, PublicTeamMember } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 import TeamCard from "@/components/team-card";
 import { ArrowLeft, ArrowUpLeft, Building2, ChevronDown, Globe2, Landmark, Menu, Scale, ShieldCheck, Sparkles, X } from "lucide-react";
@@ -25,7 +26,8 @@ const offices = [
   { number: "04", country: "مصر", city: "القاهرة", address: "خدمات قانونية محلية ضمن شبكة المكتب الإقليمية", mark: "EG" },
 ];
 
-export default function Home() {
+export default function Home({members,news}: {members:PublicTeamMember[];news:CmsNews[]}) {
+  const {featured:qatarFeaturedPeople,compact:qatarRemainingPeople,regional:regionalPeople}=groupTeam(members);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showRegionalTeam, setShowRegionalTeam] = useState(false);
 
@@ -80,7 +82,7 @@ export default function Home() {
           <p>للمحاماة والتحكيم</p>
           <span className="firm-presence">قطر · الإمارات · لبنان · مصر</span>
         </div>
-        <div className="hero-metrics"><div><strong>04</strong><span>مكاتب إقليمية</span></div><div><strong>{allPeople.length}</strong><span>عضوًا في الفريق</span></div><div><strong>2012</strong><span>منذ عام</span></div></div>
+        <div className="hero-metrics"><div><strong>04</strong><span>مكاتب إقليمية</span></div><div><strong>{members.length}</strong><span>عضوًا في الفريق</span></div><div><strong>2012</strong><span>منذ عام</span></div></div>
         <a href="#about" className="scroll-cue" aria-label="انتقل إلى القسم التالي"><ChevronDown size={20} /></a>
       </section>
 
@@ -104,8 +106,8 @@ export default function Home() {
       </section>
 
       <section id="team" className="team section-pad">
-        <div className="team-heading reveal" data-reveal><div><div className="section-index"><span>03</span><p>فريقنا</p></div><h2>عقول قانونية متعددة،<br /><em>معيار مهني واحد.</em></h2></div><div className="team-count"><strong>{allPeople.length}</strong><span>خبيرًا ومتخصصًا<br />ضمن شبكة واحدة</span></div></div>
-        <div className="featured-stack">{qatarFeaturedPeople.map((member, index) => <article className={`featured-person reveal ${index % 2 ? "tone-sand" : "tone-green"}`} data-reveal key={member.name}><div className="featured-visual"><span className="featured-index">{String(index + 1).padStart(2, "0")}</span><span className="featured-halo" /><img src={member.image} alt={member.name} width={member.width} height={member.height} loading="lazy" decoding="async" srcSet={`${member.image.replace('.webp', '.480.webp')} 480w, ${member.image} ${member.width}w`} sizes="(max-width: 760px) 90vw, 45vw" /></div><div className="featured-copy"><div className="featured-meta"><span>{member.role}</span><i>{member.office}</i></div><h3>{member.name}</h3><p>{member.bio}</p><span className="featured-rule" /></div></article>)}</div>
+        <div className="team-heading reveal" data-reveal><div><div className="section-index"><span>03</span><p>فريقنا</p></div><h2>عقول قانونية متعددة،<br /><em>معيار مهني واحد.</em></h2></div><div className="team-count"><strong>{members.length}</strong><span>خبيرًا ومتخصصًا<br />ضمن شبكة واحدة</span></div></div>
+        <div className="featured-stack">{qatarFeaturedPeople.map((member, index) => <article className={`featured-person reveal ${index % 2 ? "tone-sand" : "tone-green"}`} data-reveal key={member.name}><div className="featured-visual"><span className="featured-index">{String(index + 1).padStart(2, "0")}</span><span className="featured-halo" /><img src={member.image} alt={member.name} width={member.width} height={member.height} loading="lazy" decoding="async" srcSet={teamImageSources(member)} sizes="(max-width: 760px) 90vw, 45vw" /></div><div className="featured-copy"><div className="featured-meta"><span>{member.role}</span><i>{member.office}</i></div><h3>{member.name}</h3><p>{member.bio}</p><span className="featured-rule" /></div></article>)}</div>
         <div className="directory-head reveal" data-reveal><div><span>شبكة الخبراء</span><strong>فريقنا</strong></div><p>محامون ومستشارون يجمعون خبرات قانونية متنوعة.</p></div>
         <div className="compact-team-grid">{qatarRemainingPeople.map(member => <TeamCard key={member.slug} member={member} />)}</div>
         <div className="team-directory-action"><Button className="button button-gold" aria-expanded={showRegionalTeam} aria-controls="regional-team" onClick={() => setShowRegionalTeam(value => !value)}>{showRegionalTeam ? "إخفاء باقي الفريق" : "شوف الباقي"}</Button></div>
@@ -119,15 +121,13 @@ export default function Home() {
         <div className="section-index light reveal" data-reveal><span>04</span><p>الأخبار والسوابق القضائية</p></div>
         <div className="knowledge-heading reveal" data-reveal><h2>ما يستحق<br /><em>التوقف عنده.</em></h2><p>رؤى المكتب وأبرز التطورات القضائية بصياغة واضحة تساعد صانع القرار على فهم الأثر القانوني.</p></div>
         <div className="knowledge-grid">
-          <details className="knowledge-card news-card reveal" data-reveal>
-            <summary><span className="knowledge-label">رؤية قانونية</span><div><h3>المحاماة بين المحلية والعالمية: رحلة انتشار عابرة للحدود</h3><p>قراءة في توسّع مكاتب المحاماة إقليميًا، ودور التحالفات القانونية في خدمة الاستثمارات والمعاملات الدولية.</p></div><span className="knowledge-open">اقرأ الملخص <ArrowUpLeft size={18} /></span></summary>
-            <div className="knowledge-details"><p>يتناول التحليل كيف أصبح الحضور العابر للحدود ضرورة لخدمة العملاء في العقود الدولية والتحكيم والاستثمار، مع الحفاظ على فهم عميق للقوانين المحلية والمعايير المهنية في كل سوق.</p><span>بقلم المحامي محمد بن عوجان الهاجري</span></div>
-          </details>
-          <details className="knowledge-card precedent-card reveal delay-1" data-reveal>
-            <summary><span className="knowledge-label">سابقة قضائية</span><div><h3>سابقة قضائية تحسم الاختصاص في التطوير العقاري</h3><p>محكمة التمييز تقر اختصاص لجنة فض المنازعات وتوضح المسار الإجرائي للنزاع.</p></div><span className="knowledge-open">اعرض التفاصيل <ArrowUpLeft size={18} /></span></summary>
-            <div className="knowledge-details"><p>تسلّط السابقة الضوء على معيار تحديد الجهة المختصة في منازعات التطوير العقاري، وما يترتب عليه من وضوح أكبر عند اختيار المسار القانوني قبل بدء الإجراءات.</p><span>نُشر في جريدة الشرق — 29 أبريل 2026</span></div>
-          </details>
+          {news.slice(0,4).map((item,index)=><details className={`knowledge-card ${index%2 ? "precedent-card" : "news-card"} reveal`} data-reveal key={item.slug}>
+            <summary><span className="knowledge-label">{item.category}</span><div>{item.image_url && <img className="news-thumb" src={item.image_url} alt={item.image_alt} loading="lazy"/>}<h3>{item.title}</h3><p>{item.excerpt}</p></div><span className="knowledge-open">اقرأ الملخص <ArrowUpLeft size={18}/></span></summary>
+            <div className="knowledge-details"><p>{item.content.slice(0,500)}{item.content.length>500 ? "…" : ""}</p><span>{item.author}</span><Link className="news-read-link" href={`/news/${item.slug}`}>اقرأ الخبر كاملًا <ArrowUpLeft size={16}/></Link></div>
+          </details>)}
+          {!news.length && <p>لا توجد أخبار منشورة حاليًا.</p>}
         </div>
+        <Link className="news-all-link" href="/news">كل الأخبار والمقالات <ArrowUpLeft size={18}/></Link>
       </section>
 
       <section id="offices" className="offices section-pad">

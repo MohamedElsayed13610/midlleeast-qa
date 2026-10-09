@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
-import { qatarPeople, regionalPeople, categories, practices } from "@/lib/team";
+import { groupTeam } from "@/lib/cms-types";
+import type { PublicTeamMember } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 import TeamCard from "@/components/team-card";
 
-export default function TeamDirectory() {
+export default function TeamDirectory({members}:{members:PublicTeamMember[]}) {
+  const {qatar:qatarPeople,regional:regionalPeople}=groupTeam(members);
+  const categories=[...new Set(members.map(member=>member.category))];
+  const practices=[...new Set(members.map(member=>member.practice).filter(Boolean))];
   const [showRegionalTeam, setShowRegionalTeam] = useState(false);
   const [category, setCategory] = useState("");
   const [practice, setPractice] = useState("");
