@@ -3,7 +3,10 @@ import StructuredData from "@/components/structured-data";
 import { absoluteUrl, firmDescription, firmName, firmSchema, pageMetadata } from "@/lib/seo";
 import { legalServices } from "@/lib/services";
 
-export const metadata = pageMetadata("مكتب محاماة واستشارات قانونية في قطر", firmDescription, "/");
+export const metadata = {
+  ...pageMetadata("مكتب محاماة واستشارات قانونية في قطر", firmDescription, "/"),
+  title: { absolute: "مكتب محاماة في قطر | الشرق الأوسط وشركاؤه" },
+};
 
 export default function Home() {
   return <>
