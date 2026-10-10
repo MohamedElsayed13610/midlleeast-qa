@@ -95,7 +95,7 @@ export type AdminConsultation = {
   assigned: { id: string; name: string; role: string } | null;
 };
 export type AdminDocument = { id: string; original_name: string; mime_type: string; size_bytes: number; created_at: string };
-export type AdminEvent = { id: string; kind: "created" | "status" | "reschedule" | "assign" | "note"; from_value: string | null; to_value: string | null; note: string | null; actor_email: string | null; created_at: string };
+export type AdminEvent = { id: string; kind: "created" | "status" | "reschedule" | "assign" | "note" | "share_link" | "whatsapp"; from_value: string | null; to_value: string | null; note: string | null; actor_email: string | null; created_at: string };
 export type AdminSettings = { working_days: number[]; start_time: string; end_time: string; slot_minutes: number; min_notice_hours: number; max_advance_days: number; updated_at: string };
 export type AdminBlockedDate = { id: string; blocked_on: string; reason: string };
 

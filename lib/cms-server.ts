@@ -4,13 +4,13 @@ import { defaultMembers, defaultNews } from "@/lib/cms-defaults";
 import type { CmsNews, CmsTeam, PublicTeamMember } from "@/lib/cms-types";
 
 export function cmsConfigured() { return process.env.LAWFIRM_CMS_ENABLED==="true" && Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY); }
-export function cmsClient(accessToken?: string) {
+export function cmsClient(accessToken?: string, extraHeaders: Record<string,string> = {}) {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) throw new Error("CMS connection unavailable");
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-    global: { headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}, fetch: (input,init) => fetch(input,{ ...init, cache: "no-store" }) },
+    global: { headers: { ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), ...extraHeaders }, fetch: (input,init) => fetch(input,{ ...init, cache: "no-store" }) },
   });
 }
 export async function getPublicMembers(): Promise<PublicTeamMember[]> {

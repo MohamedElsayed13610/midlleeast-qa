@@ -3,7 +3,7 @@ import { absoluteUrl, isPreview, siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", ...(isPreview ? { disallow: "/" } : { allow: "/" }) },
+    rules: { userAgent: "*", ...(isPreview ? { disallow: "/" } : { allow: "/", disallow: ["/consultation-files/"] }) },
     ...(isPreview ? {} : { sitemap: absoluteUrl("/sitemap.xml"), host: siteUrl }),
   };
 }

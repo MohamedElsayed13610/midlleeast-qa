@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { Ban, CalendarClock, CalendarCheck, Check, CheckCheck, Clock, Download, FileText, Mail, Phone, RefreshCw, Search, Send, Settings2, Trash2, UserRound, X } from "lucide-react";
+import { Ban, CalendarClock, CalendarCheck, Check, CheckCheck, Clock, Download, FileText, Mail, MessageCircle, Phone, RefreshCw, Search, Send, Settings2, Trash2, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ type Props = { configured: boolean; onAuthError: (error: unknown) => void; onNew
 type Detail = { item: AdminConsultation; documents: AdminDocument[]; events: AdminEvent[] };
 type Pending = { title: string; body: string; confirm: string; danger?: boolean; run: () => Promise<void> };
 const dayNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+const failureText = (value: unknown, fallback: string) => (value instanceof ApiError ? value.message : "تعذّر الاتصال بالخادم. لم يتم حفظ أي تغيير ولم يُفتح واتساب.") || fallback;
 const kb = (bytes: number) => bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 const digits = (value: string) => value.replace(/\D/g, "");
 const Badge = ({ status }: { status: ConsultationStatus }) => <span className={`cc-status cc-status-${status}`}>{statusLabels[status]}</span>;
@@ -111,13 +112,14 @@ function DetailDrawer({ id, fail, setMessage, onClose, onChanged }: { id: string
   const [busy, setBusy] = useState(false); const [localError, setLocalError] = useState("");
   const [note, setNote] = useState(""); const [member, setMember] = useState("");
   const [pending, setPending] = useState<Pending | null>(null);
+  const [waIds, setWaIds] = useState<Set<string> | null>(null); const [waFallback, setWaFallback] = useState<string | null>(null);
   const [slots, setSlots] = useState<AvailabilityResponse | null>(null); const [rescheduling, setRescheduling] = useState(false); const [slotDate, setSlotDate] = useState(""); const [slotStart, setSlotStart] = useState("");
 
-  const reload = useCallback(async () => {
+  const reload = useCallback(async (keepSelection = false) => {
     const data = await api(`consultations/${id}`) as unknown as Detail;
-    setDetail(data); setMember(data.item.assigned_member_id ?? "");
+    setDetail(data); if (!keepSelection) setMember(data.item.assigned_member_id ?? "");
   }, [id]);
-  useEffect(() => { dialog.current?.showModal(); api("content/team").then(data => setTeam((data.items as CmsTeam[]).filter(item => item.is_active))).catch(() => undefined); }, []);
+  useEffect(() => { dialog.current?.showModal(); api("content/team").then(data => setTeam((data.items as CmsTeam[]).filter(item => item.is_active))).catch(() => undefined); api("team-private").then(data => setWaIds(new Set((data as unknown as { ids: string[] }).ids))).catch(() => undefined); }, []);
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { reload().catch(value => { fail(value); onClose(); }); }, [reload, fail, onClose]);
   useEffect(() => { if (pending) confirmDialog.current?.showModal(); else confirmDialog.current?.close(); }, [pending]);
@@ -127,8 +129,31 @@ function DetailDrawer({ id, fail, setMessage, onClose, onChanged }: { id: string
     try {
       await api(`consultations/${id}`, json("PATCH", { expected_updated_at: detail.item.updated_at, ...body }));
       await reload(); onChanged(); setMessage(success); setNote(""); setRescheduling(false);
-    } catch (value) { if (value instanceof ApiError && [401, 403].includes(value.status)) fail(value); else setLocalError(value instanceof Error ? value.message : "تعذّر تنفيذ الإجراء."); if (value instanceof ApiError && value.status === 409) void reload().catch(() => undefined); }
+    } catch (value) { if (value instanceof ApiError && [401, 403].includes(value.status)) fail(value); else setLocalError(failureText(value, "تعذّر تنفيذ الإجراء.")); if (value instanceof ApiError && value.status === 409) void reload().catch(() => undefined); }
     finally { setBusy(false); setPending(null); }
+  }
+  /**
+   * Save first, open WhatsApp second. The blank tab is opened synchronously inside the click (so popup blockers allow it)
+   * and is only pointed at WhatsApp after the server confirmed the save. If the save fails the tab is closed again.
+   */
+  async function actWa(body: Record<string, unknown>, success: string, preflight?: () => string | null) {
+    if (!detail) return;
+    const problem = preflight?.();
+    if (problem) { setLocalError(problem); setPending(null); return; }
+    const tab = window.open("", "_blank");
+    if (tab) { try { tab.opener = null; tab.document.title = "واتساب"; tab.document.body.style.cssText = "font-family:sans-serif;display:grid;place-items:center;height:100vh;margin:0;color:#123f37"; tab.document.body.textContent = "جارٍ حفظ الطلب وتجهيز رسالة واتساب…"; } catch { /* a restricted tab still works as a navigation target */ } }
+    setBusy(true); setLocalError(""); setMessage(""); setWaFallback(null);
+    try {
+      const result = await api(`consultations/${id}`, json("PATCH", { expected_updated_at: detail.item.updated_at, ...body })) as unknown as { whatsappUrl?: string };
+      await reload().catch(() => undefined); onChanged(); setRescheduling(false);
+      if (!result.whatsappUrl) throw new Error("تعذّر تجهيز رابط واتساب.");
+      if (tab && !tab.closed) tab.location.href = result.whatsappUrl; else setWaFallback(result.whatsappUrl);
+      setMessage(success);
+    } catch (value) {
+      tab?.close();
+      if (value instanceof ApiError && [401, 403].includes(value.status)) fail(value); else setLocalError(failureText(value, "تعذّر تنفيذ الإجراء."));
+      void reload(true).catch(() => undefined); // the save may have partly succeeded (e.g. link creation); show the real state
+    } finally { setBusy(false); setPending(null); }
   }
   const ask = (next: Pending) => setPending(next);
   async function openReschedule() {
@@ -142,21 +167,45 @@ function DetailDrawer({ id, fail, setMessage, onClose, onChanged }: { id: string
     if (kind.kind === "status") return `تغيير الحالة: ${statusLabels[kind.from_value as ConsultationStatus] ?? kind.from_value} ← ${statusLabels[kind.to_value as ConsultationStatus] ?? kind.to_value}`;
     if (kind.kind === "reschedule") return `تغيير الموعد: ${kind.from_value ? formatDateTime(kind.from_value) : "—"} ← ${kind.to_value ? formatDateTime(kind.to_value) : "—"}`;
     if (kind.kind === "assign") return `إسناد المحامي: ${kind.to_value ?? "بدون إسناد"}`;
+    if (kind.kind === "share_link") return "إنشاء رابط مستندات مؤقت للمحامي (24 ساعة)";
+    if (kind.kind === "whatsapp") return kind.to_value === "lawyer" ? "تجهيز رسالة واتساب للمحامي" : "تجهيز رسالة واتساب للعميل";
     return "ملاحظة داخلية";
   };
+  const assignedId = item?.assigned_member_id ?? ""; const memberChanged = member !== assignedId;
+  const waMissing = Boolean(member && waIds && !waIds.has(member));
+  const noWaMessage = "لا يوجد رقم واتساب مسجل لهذا المحامي. أضف الرقم من إدارة الفريق أولًا.";
+  const sendToLawyer = (label: string) => actWa({ action: "assign_and_send", member_id: member }, label, () => (!member ? "اختر المحامي المسؤول أولًا." : waMissing ? noWaMessage : null));
+  const confirmToClient = () => ask({ title: "تأكيد الموعد وإرسال للعميل؟", body: `سيُحفظ الموعد ${item ? formatDateTime(item.starts_at) : ""} كمؤكد، ثم تُفتح محادثة واتساب مع العميل برسالة جاهزة تضغط عليها «إرسال».`, confirm: "تأكيد وفتح واتساب", run: () => actWa({ action: "confirm_and_send" }, "تم تأكيد الموعد. أرسل الرسالة من نافذة واتساب.") });
 
   return <dialog ref={dialog} className="cc-drawer" aria-labelledby="cc-drawer-title" onCancel={event => { event.preventDefault(); if (!busy) onClose(); }} onClick={event => { if (event.target === dialog.current && !busy) onClose(); }}>
     <header><div><span className="cms-eyebrow">طلب استشارة</span><h2 id="cc-drawer-title" dir="ltr">{item?.reference_number ?? "…"}</h2></div>{item && <Badge status={item.status} />}<Button type="button" variant="ghost" size="icon" aria-label="إغلاق" onClick={() => !busy && onClose()}><X size={21} /></Button></header>
     {!item ? <div className="cc-drawer-body"><p role="status">جارٍ تحميل الطلب…</p></div> : <div className="cc-drawer-body">
       {localError && <p className="cms-error" role="alert">{localError}</p>}
-      <section className="cc-block"><h3>الإجراءات</h3><div className="cc-actions">
-        {item.status === "new" && <Button variant="outline" disabled={busy} onClick={() => ask({ title: "نقل الطلب إلى «بانتظار التأكيد»؟", body: "استخدم هذه الحالة بعد مراجعة الطلب وبدء التواصل مع العميل.", confirm: "نقل الطلب", run: () => act({ action: "set_status", status: "pending_confirmation" }, "تم نقل الطلب إلى بانتظار التأكيد.") })}><Clock size={16} />بانتظار التأكيد</Button>}
-        {["new", "pending_confirmation"].includes(item.status) && <Button className="cms-primary" disabled={busy} onClick={() => ask({ title: "تأكيد الموعد؟", body: `سيصبح الموعد ${formatDateTime(item.starts_at)} مؤكدًا. تواصل مع العميل لإبلاغه.`, confirm: "تأكيد الموعد", run: () => act({ action: "set_status", status: "confirmed" }, "تم تأكيد الموعد.") })}><Check size={16} />تأكيد الموعد</Button>}
-        {item.status === "confirmed" && <Button className="cms-primary" disabled={busy} onClick={() => ask({ title: "وضع علامة «مكتمل»؟", body: "يُغلق الطلب ولا يمكن تغيير حالته بعد ذلك.", confirm: "تم إكمال الاستشارة", run: () => act({ action: "set_status", status: "completed" }, "تم إكمال الاستشارة.") })}><CheckCheck size={16} />تم إكمال الاستشارة</Button>}
-        {!closed && <Button variant="outline" disabled={busy} onClick={() => void openReschedule()}><CalendarClock size={16} />تغيير الموعد</Button>}
-        {!closed && <Button className="cms-danger" disabled={busy} onClick={() => ask({ title: "إلغاء الطلب؟", body: "سيُلغى الطلب ويعود الموعد متاحًا للحجز من جديد. لا يمكن التراجع.", confirm: "إلغاء الطلب", danger: true, run: () => act({ action: "set_status", status: "cancelled" }, "تم إلغاء الطلب.") })}><Ban size={16} />إلغاء الطلب</Button>}
-        {closed && <p className="cc-muted">هذا الطلب مغلق ولا يقبل تغيير الحالة أو الموعد.</p>}
-      </div>
+      <section className="cc-block cc-workflow"><h3>سير العمل</h3>
+        <p className={`cc-state cc-state-${item.status}`} role="status">
+          {item.status === "new" && "طلب جديد — اختر المحامي ثم أرسل الطلب إليه عبر واتساب."}
+          {item.status === "pending_confirmation" && <>بانتظار تأكيد المحامي{item.assigned ? <> — المسؤول: <strong>{item.assigned.name}</strong></> : null}</>}
+          {item.status === "confirmed" && <>تم تأكيد الموعد{item.assigned ? <> — المحامي: <strong>{item.assigned.name}</strong></> : null}</>}
+          {item.status === "completed" && "تم إكمال الاستشارة."}{item.status === "cancelled" && "تم إلغاء هذا الطلب."}
+        </p>
+        {waFallback && <p className="cms-success" role="status">لم يُفتح واتساب تلقائيًا (حاجب النوافذ المنبثقة). <a href={waFallback} target="_blank" rel="noopener noreferrer">افتح واتساب الآن</a></p>}
+        {!closed && <div className="cc-assign"><label className="cms-field"><span>المحامي المسؤول</span><NativeSelect aria-label="المحامي المسؤول" value={member} disabled={busy} onChange={event => { setMember(event.target.value); setLocalError(""); }}><NativeSelectOption value="">اختر المحامي…</NativeSelectOption>{team.map(person => <NativeSelectOption key={person.id} value={person.id}>{person.name} — {person.role}{waIds && !waIds.has(person.id) ? " (بدون رقم واتساب)" : ""}</NativeSelectOption>)}</NativeSelect></label></div>}
+        {waMissing && !closed && <p className="cms-error" role="alert">{noWaMessage}</p>}
+        <div className="cc-actions">
+          {item.status === "new" && <Button className="cms-primary" disabled={busy || !member} onClick={() => void sendToLawyer("تم حفظ الإسناد. أرسل الرسالة من نافذة واتساب.")}><MessageCircle size={16} />حفظ الإسناد وإرسال للمحامي</Button>}
+          {item.status === "pending_confirmation" && <Button className="cms-primary" disabled={busy} onClick={confirmToClient}><MessageCircle size={16} />تأكيد الموعد وإرسال للعميل</Button>}
+          {item.status === "pending_confirmation" && (memberChanged
+            ? <Button variant="outline" disabled={busy || !member} onClick={() => void sendToLawyer("تم تغيير المحامي وإلغاء الرابط السابق. أرسل الرسالة من نافذة واتساب.")}><MessageCircle size={16} />حفظ الإسناد وإرسال للمحامي</Button>
+            : <Button variant="outline" disabled={busy || !member} onClick={() => void sendToLawyer("تم تجهيز رسالة جديدة للمحامي برابط مستندات جديد.")}><Send size={16} />إعادة إرسال للمحامي</Button>)}
+          {item.status === "new" && <Button variant="outline" disabled={busy} onClick={confirmToClient}><Check size={16} />تأكيد مباشر وإرسال للعميل</Button>}
+          {item.status === "confirmed" && <Button className="cms-primary" disabled={busy} onClick={() => ask({ title: "وضع علامة «مكتمل»؟", body: "يُغلق الطلب ولا يمكن تغيير حالته بعد ذلك.", confirm: "تم إكمال الاستشارة", run: () => act({ action: "set_status", status: "completed" }, "تم إكمال الاستشارة.") })}><CheckCheck size={16} />تم إكمال الاستشارة</Button>}
+          {item.status === "confirmed" && <Button variant="outline" disabled={busy} onClick={() => void actWa({ action: "client_message", updated: false }, "تم تجهيز رسالة التأكيد للعميل.")}><MessageCircle size={16} />إعادة إرسال التأكيد للعميل</Button>}
+          {item.status === "confirmed" && <Button variant="outline" disabled={busy} onClick={() => void actWa({ action: "client_message", updated: true }, "تم تجهيز رسالة تحديث الموعد للعميل.")}><MessageCircle size={16} />إرسال تحديث الموعد للعميل</Button>}
+          {item.status === "confirmed" && memberChanged && <Button variant="outline" disabled={busy} onClick={() => void act({ action: "assign", member_id: member || null }, member ? "تم إسناد المحامي." : "تم إلغاء الإسناد.")}>حفظ الإسناد</Button>}
+          {!closed && <Button variant="outline" disabled={busy} onClick={() => void openReschedule()}><CalendarClock size={16} />تغيير الموعد</Button>}
+          {!closed && <Button className="cms-danger" disabled={busy} onClick={() => ask({ title: "إلغاء الطلب؟", body: "سيُلغى الطلب ويعود الموعد متاحًا للحجز من جديد، وتُلغى روابط المستندات المؤقتة. لا يمكن التراجع.", confirm: "إلغاء الطلب", danger: true, run: () => act({ action: "set_status", status: "cancelled" }, "تم إلغاء الطلب.") })}><Ban size={16} />إلغاء الطلب</Button>}
+          {closed && <p className="cc-muted">هذا الطلب مغلق ولا يقبل تغيير الحالة أو الموعد.</p>}
+        </div>
       {rescheduling && <div className="cc-reschedule"><strong>اختر موعدًا جديدًا</strong>
         {slots && Object.keys(slots.days).length ? <><div className="cms-form-grid">
           <label className="cms-field">اليوم<NativeSelect value={slotDate} onChange={event => { setSlotDate(event.target.value); setSlotStart(""); }}>{Object.keys(slots.days).sort().map(day => <NativeSelectOption key={day} value={day}>{formatLocalDay(day, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</NativeSelectOption>)}</NativeSelect></label>
@@ -184,11 +233,6 @@ function DetailDrawer({ id, fail, setMessage, onClose, onChanged }: { id: string
       <section className="cc-block"><h3>المستندات ({detail?.documents.length ?? 0})</h3>
         {detail?.documents.length ? <ul className="cc-docs">{detail.documents.map(doc => <li key={doc.id}><FileText size={18} /><span><strong>{doc.original_name}</strong><small dir="ltr">{kb(doc.size_bytes)} · {doc.mime_type.split("/")[1].toUpperCase()}</small></span><a href={`/api/admin/consultations/${id}/documents/${doc.id}`} download aria-label={`تحميل ${doc.original_name}`}><Download size={17} />تحميل</a></li>)}</ul> : <p className="cc-muted">لم يُرفق العميل مستندات.</p>}
         <p className="cc-muted">المستندات خاصة، وتُحمَّل عبر حساب المسؤول فقط.</p></section>
-
-      <section className="cc-block"><h3>المحامي المسؤول</h3>
-        <div className="cc-assign"><label className="cms-field"><span className="sr-only">المحامي المسؤول</span><NativeSelect aria-label="المحامي المسؤول" value={member} disabled={busy || closed} onChange={event => setMember(event.target.value)}><NativeSelectOption value="">غير مُسند</NativeSelectOption>{team.map(person => <NativeSelectOption key={person.id} value={person.id}>{person.name} — {person.role}</NativeSelectOption>)}</NativeSelect></label>
-          <Button variant="outline" disabled={busy || closed || member === (item.assigned_member_id ?? "")} onClick={() => void act({ action: "assign", member_id: member || null }, member ? "تم إسناد المحامي." : "تم إلغاء الإسناد.")}>حفظ الإسناد</Button></div>
-        {item.assigned && <p className="cc-muted">المسؤول الحالي: {item.assigned.name}</p>}</section>
 
       <section className="cc-block"><h3>ملاحظات داخلية وسجل الطلب</h3>
         <form className="cc-note" onSubmit={event => { event.preventDefault(); if (note.trim()) void act({ action: "add_note", note }, "تمت إضافة الملاحظة."); }}>

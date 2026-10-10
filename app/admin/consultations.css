@@ -112,3 +112,15 @@
   .cms-sidebar nav button { flex: 1 1 auto; min-width: 0; gap: 8px; padding: 9px 10px; justify-content: center; }
   .cms-sidebar nav button span { margin-right: 0; }
 }
+
+/* WhatsApp workflow */
+.cc-state { margin: 0 0 14px !important; padding: 11px 14px; border-radius: 7px; border: 1px solid #e3e9e1; background: #f7f9f6; font-size: 14px; }
+.cc-state-new { background: #f6eedb; border-color: #eadbc0; color: #7a5a1f; }
+.cc-state-pending_confirmation { background: #eceee0; border-color: #d9dec6; color: #596a30; }
+.cc-state-confirmed { background: #e2efe8; border-color: #c9dfd3; color: #1d5a43; }
+.cc-state-cancelled { background: #f3e5e1; border-color: #e7cdc7; color: #8a4034; }
+.cc-workflow .cc-assign { margin-bottom: 14px; }
+.cc-workflow .cms-field > span { font-size: 13px; font-weight: 600; }
+.cc-workflow .cms-success a { text-decoration: underline; text-underline-offset: 4px; font-weight: 600; }
+
+@media (max-width: 700px) { .cc-drawer > header h2 { font-size: 16px; white-space: nowrap; } }

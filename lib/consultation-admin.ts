@@ -12,6 +12,9 @@ export const consultationPatch = z.discriminatedUnion("action", [
   z.object({ action: z.literal("set_status"), status: z.enum(["pending_confirmation", "confirmed", "completed", "cancelled"]), expected_updated_at: stamp }),
   z.object({ action: z.literal("reschedule"), starts_at: stamp, expected_updated_at: stamp }),
   z.object({ action: z.literal("assign"), member_id: z.string().uuid().nullable(), expected_updated_at: stamp }),
+  z.object({ action: z.literal("assign_and_send"), member_id: z.string().uuid("اختر المحامي المسؤول أولًا."), expected_updated_at: stamp }),
+  z.object({ action: z.literal("confirm_and_send"), expected_updated_at: stamp }),
+  z.object({ action: z.literal("client_message"), updated: z.boolean().default(false) }),
   z.object({ action: z.literal("add_note"), note: z.string().trim().min(1, "اكتب نص الملاحظة.").max(2000, "الملاحظة طويلة جدًا.") }),
 ]);
 

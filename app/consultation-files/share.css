@@ -1,0 +1,15 @@
+.share-page { background: var(--paper); }
+.share-page .team-page-heading h1 { font-size: clamp(2.2rem,4.4vw,4rem); }
+.share-ref { font-family: "Alexandria", sans-serif; color: var(--gold-light); letter-spacing: .06em; }
+.share-body { max-width: 900px; margin-inline: auto; padding-block: 56px 90px; }
+.share-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.share-list li { display: flex; align-items: center; gap: 18px; padding: 22px 4px; border-bottom: 1px solid var(--line); color: var(--green-800); }
+.share-list li > svg { flex: none; color: var(--gold); }
+.share-name { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.share-name strong { font-family: "Alexandria", sans-serif; font-weight: 400; color: var(--ink); overflow-wrap: anywhere; }
+.share-name small { color: var(--muted); text-align: right; }
+.share-note { display: flex; gap: 12px; align-items: flex-start; margin: 32px 0 0; padding: 16px 18px; border-right: 2px solid var(--gold); background: rgba(194,160,102,.12); color: var(--green-950); line-height: 1.9; font-size: .92rem; }
+.share-note svg { flex: none; margin-top: 4px; color: var(--gold); }
+.share-invalid { min-height: 50vh; }
+@media (max-width: 600px) { .share-list li { flex-wrap: wrap; } .share-list li .button { width: 100%; } }
+.share-name strong { unicode-bidi: plaintext; text-align: start; }
