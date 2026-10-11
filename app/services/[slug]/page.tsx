@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const service = legalServices.find(item => item.slug === slug);
   if (!service) notFound();
-  return pageMetadata(service.heading, service.description, `/services/${slug}`);
+  return { ...pageMetadata(service.heading, service.description, `/services/${slug}`), alternates: { canonical: absoluteUrl(`/services/${slug}`), languages: { ar: absoluteUrl(`/services/${slug}`), en: absoluteUrl(`/en/services/${slug}`) } } };
 }
 
 export default async function ServicePage({ params }: Props) {
@@ -26,7 +26,7 @@ export default async function ServicePage({ params }: Props) {
       { "@type": "Service", "@id": absoluteUrl(`${path}#service`), name: service.heading, description: service.description, serviceType: service.title, url: absoluteUrl(path), provider: { "@id": firmSchema["@id"] }, areaServed: { "@type": "Country", name: "Qatar" } },
       breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: service.title, path }]),
     ] }} />
-    <header className="inner-header"><Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والتحكيم</small></span></Link><Link href="/#contact">تواصل مع المكتب</Link></header>
+    <header className="inner-header"><Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والتحكيم</small></span></Link><div className="header-actions"><Link className="language-switch" href={`/en/services/${slug}`} lang="en">EN</Link><Link href="/#contact">تواصل مع المكتب</Link></div></header>
     <section className="team-page-heading section-pad">
       <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span aria-hidden="true">/</span><span aria-current="page">{service.title}</span></nav>
       <span className="kicker">خدماتنا القانونية</span><h1>{service.heading}</h1><p>{service.description}</p>
