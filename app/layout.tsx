@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { firmName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
 import "./globals.css";
+import "./practice.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -9,10 +10,7 @@ export const metadata: Metadata = {
   applicationName: firmName,
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-  },
+  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -3,21 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { legalServices } from "@/lib/services";
+import PracticeAreas from "@/components/practice-areas";
 import { groupTeam, teamImageSources } from "@/lib/cms-types";
 import type { CmsNews, PublicTeamMember } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 import TeamCard from "@/components/team-card";
-import { ArrowLeft, ArrowUpLeft, Building2, ChevronDown, Globe2, Landmark, Menu, Scale, ShieldCheck, Sparkles, X } from "lucide-react";
-
-const services = [
-  { number: "01", title: "الشركات والمعاملات التجارية", text: "من تأسيس الكيانات وصياغة العقود إلى الصفقات والمعاملات العابرة للحدود.", icon: Building2, size: "wide" },
-  { number: "02", title: "المنازعات والتحكيم", text: "استراتيجيات تقاضٍ وتمثيل قانوني تُبنى على قراءة دقيقة للوقائع والمخاطر.", icon: Scale, size: "tall" },
-  { number: "03", title: "الطاقة والموارد الطبيعية", text: "دعم متخصص للمشروعات الاستراتيجية والقطاعات عالية التنظيم.", icon: Sparkles, size: "" },
-  { number: "04", title: "العمل والهجرة", text: "حلول عملية لعلاقات العمل، التنقل المهني، والامتثال التنظيمي.", icon: ShieldCheck, size: "" },
-  { number: "05", title: "الاتصالات والتكنولوجيا", text: "مشورة قانونية تواكب الاقتصاد الرقمي والتغيرات التنظيمية المتسارعة.", icon: Globe2, size: "wide" },
-  { number: "06", title: "الضرائب", text: "رؤية متكاملة للمسائل الضريبية والهيكلة المالية المعقدة.", icon: Landmark, size: "" },
-];
-
+import { ArrowLeft, ArrowUpLeft, ChevronDown, Menu, X } from "lucide-react";
 
 const offices = [
   { number: "01", country: "قطر", city: "لوسيل — الدوحة", address: "منطقة المارينا، برج التوأم أ، الطابق الثامن", mark: "QA" },
@@ -55,12 +46,14 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         </a>
         <nav className="desktop-nav" aria-label="التنقل الرئيسي"><a href="#about">المكتب</a><a href="#services">الخبرات</a><a href="#team">الفريق</a><a href="#knowledge">الأخبار</a><a href="#offices">المكاتب</a></nav>
         <div className="header-actions">
+          <Link className="language-switch" href="/en" lang="en">EN</Link>
           <Link className="header-cta" href="/consultation">استشارة قانونية <ArrowUpLeft size={16} /></Link>
           <button className="menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
         </div>
         <nav className={`mobile-nav ${menuOpen ? "is-open" : ""}`} aria-label="قائمة الموبايل" aria-hidden={!menuOpen}>
           {[["about","المكتب"],["services","الخبرات"],["team","الفريق"],["knowledge","الأخبار والسوابق"],["offices","المكاتب"],["contact","تواصل معنا"]].map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
           <Link href="/consultation" onClick={() => setMenuOpen(false)}>احجز استشارة قانونية</Link>
+          <Link href="/en" lang="en" onClick={() => setMenuOpen(false)}>English</Link>
         </nav>
       </header>
 
@@ -87,7 +80,7 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         <a href="#about" className="scroll-cue" aria-label="انتقل إلى القسم التالي"><ChevronDown size={20} /></a>
       </section>
 
-      <div className="practice-ticker" aria-label="مجالات الممارسة"><div className="ticker-track">{[...services, ...services].map((service, index) => <span key={`${service.title}-${index}`}><i />{service.title}</span>)}</div></div>
+      <div className="practice-ticker" aria-label="مجالات الممارسة"><div className="ticker-track">{[...legalServices, ...legalServices].map((service, index) => <span key={`${service.title}-${index}`}><i />{service.title}</span>)}</div></div>
 
       <section id="about" className="about section-pad">
         <div className="section-index reveal" data-reveal><span>01</span><p>المكتب</p></div>
@@ -98,13 +91,7 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         <div className="principles reveal" data-reveal><span>نزاهة لا تتغير</span><span>استراتيجية لكل ملف</span><span>تواصل مباشر</span><span>حضور إقليمي</span></div>
       </section>
 
-      <section id="services" className="services section-pad">
-        <div className="section-index light reveal" data-reveal><span>02</span><p>مجالات الخبرة</p></div>
-        <div className="expertise-showcase">
-          <div className="expertise-intro reveal" data-reveal><span className="kicker">حلول متصلة، لا خدمات منفصلة</span><h2>منظومة قانونية<br /><em>تتحرك مع أعمالك.</em></h2><p>نبدأ بفهم القرار التجاري، ثم نبني حوله المسار القانوني المناسب من الوقاية وحتى التمثيل أمام جهات التقاضي.</p><div className="expertise-stat"><strong>06</strong><span>مسارات خبرة تعمل<br />كمنظومة واحدة</span></div></div>
-          <div className="expertise-list">{services.map((service, index) => { const Icon = service.icon; return <Link href={`/services/${legalServices[index].slug}`} className={`expertise-row reveal delay-${index % 3}`} data-reveal key={service.title}><span className="expertise-number">{service.number}</span><span className="expertise-icon"><Icon size={24} strokeWidth={1.35} /></span><div><h3>{service.title}</h3><p>{service.text}</p></div><ArrowUpLeft className="expertise-arrow" size={22} /></Link>; })}</div>
-        </div>
-      </section>
+      <PracticeAreas />
 
       <section id="team" className="team section-pad">
         <div className="team-heading reveal" data-reveal><div><div className="section-index"><span>03</span><p>فريقنا</p></div><h2>عقول قانونية متعددة،<br /><em>معيار مهني واحد.</em></h2></div><div className="team-count"><strong>{members.length}</strong><span>خبيرًا ومتخصصًا<br />ضمن شبكة واحدة</span></div></div>
