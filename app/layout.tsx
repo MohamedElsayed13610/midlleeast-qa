@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { firmName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
+import { firmLegalName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
 import "./globals.css";
 import "./practice.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: `مكتب محاماة في قطر | ${firmName}`, template: `%s | ${firmName}` },
+  title: { default: `مكتب محاماة في قطر | ${firmLegalName}`, template: `%s | ${firmLegalName}` },
   description: firmDescription,
-  applicationName: firmName,
+  applicationName: firmLegalName,
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },

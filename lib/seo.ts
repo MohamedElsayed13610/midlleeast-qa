@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
-// Set this to the connected production domain when the site moves off Vercel.
 const configuredOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://midlleeast-qa.vercel.app");
 if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin.username || configuredOrigin.password || configuredOrigin.pathname !== '/' || configuredOrigin.search || configuredOrigin.hash) {
   throw new Error("NEXT_PUBLIC_SITE_URL must be an absolute website origin without a path.");
 }
 
 export const siteUrl = configuredOrigin.origin;
-export const firmName = "الشرق الأوسط وشركاؤه";
-export const firmDescription = "مكتب الشرق الأوسط وشركاؤه للمحاماة والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
+export const firmName = "الشرق الأوسط ومشاركوه";
+export const firmLegalName = "الشرق الأوسط ومشاركوه للمحاماة والتحكيم";
+export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
 
@@ -17,15 +17,15 @@ export function pageMetadata(title: string, description: string, path: string): 
     title,
     description,
     alternates: { canonical: absoluteUrl(path) },
-    openGraph: { type: "website", locale: "ar_QA", siteName: firmName, title: `${title} | ${firmName}`, description, url: absoluteUrl(path) },
-    twitter: { card: "summary", title: `${title} | ${firmName}`, description },
+    openGraph: { type: "website", locale: "ar_QA", siteName: firmLegalName, title: `${title} | ${firmLegalName}`, description, url: absoluteUrl(path) },
+    twitter: { card: "summary", title: `${title} | ${firmLegalName}`, description },
   };
 }
 
 export const firmSchema = {
   "@type": "LegalService",
   "@id": absoluteUrl("/#organization"),
-  name: firmName,
+  name: firmLegalName,
   alternateName: "Middle East & Partners Law Firm",
   url: absoluteUrl(),
   description: firmDescription,
@@ -43,7 +43,7 @@ export const firmSchema = {
     "@type": "ContactPoint",
     telephone: "+97477733348",
     contactType: "customer service",
-    availableLanguage: "ar",
+    availableLanguage: ["ar", "en"],
   },
 };
 

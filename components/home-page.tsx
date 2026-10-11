@@ -40,9 +40,9 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
     <main dir="rtl" className="site-shell">
       <div className="page-progress" aria-hidden="true" />
       <header className="site-header">
-        <a href="#top" className="brand" aria-label="الشرق الأوسط وشركاؤه — الرئيسية">
-          <img src="/assets/brand/logo-white.webp" width="64" height="64" alt="شعار الشرق الأوسط وشركاؤه" />
-          <span className="brand-copy"><strong>الشرق الأوسط وشركاؤه</strong><small>للمحاماة والتحكيم</small></span>
+        <a href="#top" className="brand" aria-label="الشرق الأوسط ومشاركوه للمحاماة والتحكيم — الرئيسية">
+          <img src="/assets/brand/logo-white.webp" width="64" height="64" alt="شعار الشرق الأوسط ومشاركوه للمحاماة والتحكيم" />
+          <span className="brand-copy"><strong>الشرق الأوسط ومشاركوه</strong><small>للمحاماة والتحكيم</small></span>
         </a>
         <nav className="desktop-nav" aria-label="التنقل الرئيسي"><a href="#about">المكتب</a><a href="#services">الخبرات</a><a href="#team">الفريق</a><a href="#knowledge">الأخبار</a><a href="#offices">المكاتب</a></nav>
         <div className="header-actions">
@@ -66,15 +66,13 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         <div className="hero-copy">
           <div className="eyebrow hero-eyebrow"><span /> مكتب محاماة إقليمي منذ 2012</div>
           <h1>القانون<br /><em>برؤية أعمال.</em></h1>
-          <p>الشرق الأوسط وشركاؤه، مكتب محاماة واستشارات قانونية في قطر. نمثل مصالح عملائنا من لوسيل وعبر المنطقة باستراتيجيات قانونية واضحة، دقيقة، وقابلة للتنفيذ.</p>
+          <p>الشرق الأوسط ومشاركوه للمحاماة والتحكيم، مكتب محاماة واستشارات قانونية في قطر. نمثل مصالح عملائنا من لوسيل وعبر المنطقة باستراتيجيات قانونية واضحة، دقيقة، وقابلة للتنفيذ.</p>
           <div className="hero-actions"><a className="button button-gold" href="#contact">ابدأ المحادثة <ArrowLeft size={18} /></a><a className="text-link" href="#team">تعرّف على فريقنا <span>↓</span></a></div>
         </div>
-        <div className="hero-firm" aria-label="الشرق الأوسط وشركاؤه للمحاماة والتحكيم">
-          <span className="firm-monogram" aria-hidden="true">M&amp;P</span>
-          <img src="/assets/brand/logo-white.webp" width="110" height="110" alt="شعار المكتب" />
-          <strong>الشرق الأوسط<br />وشركاؤه</strong>
-          <p>للمحاماة والتحكيم</p>
-          <span className="firm-presence">قطر · الإمارات · لبنان · مصر</span>
+        <div className="hero-portrait" aria-label="محمد بن عوجان الهاجري">
+          <div className="portrait-portal"><span>QATAR · LAW · 2012</span></div>
+          <img src="/assets/team/mohamed-bin-aujan-cutout.webp" width="1102" height="1427" alt="محمد بن عوجان الهاجري" />
+          <div className="portrait-name"><small>محامٍ أمام محكمة التمييز</small><strong>محمد بن عوجان الهاجري</strong></div>
         </div>
         <div className="hero-metrics"><div><strong>04</strong><span>مكاتب إقليمية</span></div><div><strong>{members.length}</strong><span>عضوًا في الفريق</span></div><div><strong>2012</strong><span>منذ عام</span></div></div>
         <a href="#about" className="scroll-cue" aria-label="انتقل إلى القسم التالي"><ChevronDown size={20} /></a>
@@ -99,36 +97,23 @@ export default function Home({members,news}: {members:PublicTeamMember[];news:Cm
         <div className="directory-head reveal" data-reveal><div><span>شبكة الخبراء</span><strong>فريقنا</strong></div><p>محامون ومستشارون يجمعون خبرات قانونية متنوعة.</p></div>
         <div className="compact-team-grid">{qatarRemainingPeople.map(member => <TeamCard key={member.slug} member={member} />)}</div>
         <div className="team-directory-action"><Button className="button button-gold" aria-expanded={showRegionalTeam} aria-controls="regional-team" onClick={() => setShowRegionalTeam(value => !value)}>{showRegionalTeam ? "إخفاء باقي الفريق" : "شوف الباقي"}</Button></div>
-        <div id="regional-team" hidden={!showRegionalTeam}>
-          <div className="directory-head"><div><span>شبكة الخبراء</span><strong>فريقنا الإقليمي</strong></div></div>
-          <div className="compact-team-grid">{regionalPeople.map(member => <TeamCard key={member.slug} member={member} />)}</div>
-        </div>
+        <div id="regional-team" hidden={!showRegionalTeam}><div className="directory-head"><div><span>شبكة الخبراء</span><strong>فريقنا الإقليمي</strong></div></div><div className="compact-team-grid">{regionalPeople.map(member => <TeamCard key={member.slug} member={member} />)}</div></div>
       </section>
 
       <section id="knowledge" className="knowledge section-pad">
         <div className="section-index light reveal" data-reveal><span>04</span><p>الأخبار والسوابق القضائية</p></div>
         <div className="knowledge-heading reveal" data-reveal><h2>ما يستحق<br /><em>التوقف عنده.</em></h2><p>رؤى المكتب وأبرز التطورات القضائية بصياغة واضحة تساعد صانع القرار على فهم الأثر القانوني.</p></div>
-        <div className="knowledge-grid">
-          {news.slice(0,4).map((item,index)=><details className={`knowledge-card ${index%2 ? "precedent-card" : "news-card"} reveal`} data-reveal key={item.slug}>
-            <summary><span className="knowledge-label">{item.category}</span><div>{item.image_url && <img className="news-thumb" src={item.image_url} alt={item.image_alt} loading="lazy"/>}<h3>{item.title}</h3><p>{item.excerpt}</p></div><span className="knowledge-open">اقرأ الملخص <ArrowUpLeft size={18}/></span></summary>
-            <div className="knowledge-details"><p>{item.content.slice(0,500)}{item.content.length>500 ? "…" : ""}</p><span>{item.author}</span><Link className="news-read-link" href={`/news/${item.slug}`}>اقرأ الخبر كاملًا <ArrowUpLeft size={16}/></Link></div>
-          </details>)}
-          {!news.length && <p>لا توجد أخبار منشورة حاليًا.</p>}
-        </div>
+        <div className="knowledge-grid">{news.slice(0,4).map((item,index)=><details className={`knowledge-card ${index%2 ? "precedent-card" : "news-card"} reveal`} data-reveal key={item.slug}><summary><span className="knowledge-label">{item.category}</span><div>{item.image_url && <img className="news-thumb" src={item.image_url} alt={item.image_alt} loading="lazy"/>}<h3>{item.title}</h3><p>{item.excerpt}</p></div><span className="knowledge-open">اقرأ الملخص <ArrowUpLeft size={18}/></span></summary><div className="knowledge-details"><p>{item.content.slice(0,500)}{item.content.length>500 ? "…" : ""}</p><span>{item.author}</span><Link className="news-read-link" href={`/news/${item.slug}`}>اقرأ الخبر كاملًا <ArrowUpLeft size={16}/></Link></div></details>)}{!news.length && <p>لا توجد أخبار منشورة حاليًا.</p>}</div>
         <Link className="news-all-link" href="/news">كل الأخبار والمقالات <ArrowUpLeft size={18}/></Link>
       </section>
 
-      <section id="offices" className="offices section-pad">
-        <div className="section-index light reveal" data-reveal><span>05</span><p>الحضور الإقليمي</p></div>
-        <div className="offices-intro reveal" data-reveal><h2>معرفة محلية،<br /><em>واتصال بلا حدود.</em></h2><p>أربعة مكاتب تعمل كفريق واحد لتقديم استجابة قانونية متسقة في المنطقة.</p></div>
-        <div className="offices-grid">{offices.map((office, index) => <article className={`office-card reveal delay-${index % 2}`} data-reveal key={office.country}><div className="office-card-top"><span>{office.number}</span><i>{office.mark}</i></div><div><h3>{office.country}</h3><strong>{office.city}</strong><p>{office.address}</p></div></article>)}</div>
-      </section>
+      <section id="offices" className="offices section-pad"><div className="section-index light reveal" data-reveal><span>05</span><p>الحضور الإقليمي</p></div><div className="offices-intro reveal" data-reveal><h2>معرفة محلية،<br /><em>واتصال بلا حدود.</em></h2><p>أربعة مكاتب تعمل كفريق واحد لتقديم استجابة قانونية متسقة في المنطقة.</p></div><div className="offices-grid">{offices.map((office, index) => <article className={`office-card reveal delay-${index % 2}`} data-reveal key={office.country}><div className="office-card-top"><span>{office.number}</span><i>{office.mark}</i></div><div><h3>{office.country}</h3><strong>{office.city}</strong><p>{office.address}</p></div></article>)}</div></section>
 
       <section className="insight section-pad"><div className="insight-mark" aria-hidden="true">§</div><div className="insight-copy reveal" data-reveal><span>رؤية قانونية</span><h2>القرار الأفضل يبدأ<br />بسؤال قانوني أدق.</h2><p>نبحث، نحلل، ونضع أمامك مسارًا واضحًا يحمي مصالحك ويخدم أهدافك.</p></div><div className="insight-rule reveal" data-reveal><span>بحث</span><i /><span>تحليل</span><i /><span>استراتيجية</span><i /><span>تنفيذ</span></div></section>
 
       <section id="contact" className="contact section-pad"><div className="contact-lines" aria-hidden="true" /><div className="contact-head reveal" data-reveal><div className="section-index light"><span>06</span><p>تواصل معنا</p></div><h2>ابدأ من<br /><em>الخطوة الصحيحة.</em></h2></div><div className="contact-panel reveal delay-1" data-reveal><p>شاركنا طبيعة المسألة القانونية، وسيتواصل معك الفريق لتحديد المسار المناسب.</p><div className="contact-actions"><Link className="button button-gold" href="/consultation">احجز استشارة قانونية <ArrowUpLeft size={18} /></Link><a className="button button-outline" href="https://wa.me/97477733348" target="_blank" rel="noreferrer">تواصل عبر واتساب <ArrowUpLeft size={18} /></a></div><div className="contact-details"><a href="tel:+97440026487">+974 4002 6487</a><a href="tel:+97477733348">+974 7773 3348</a><a href="mailto:info@middleeast-qa.com">info@middleeast-qa.com</a></div></div></section>
 
-      <footer><a href="#top" className="footer-brand"><img src="/assets/brand/logo-white.webp" width="45" height="45" loading="lazy" alt="" /><span>الشرق الأوسط وشركاؤه<small>للمحاماة والتحكيم</small></span></a><p>© 2026 جميع الحقوق محفوظة. <Link href="/team">فريق المحامين والمستشارين</Link></p><a href="#top" className="back-top">العودة للأعلى <ArrowUpLeft size={16} /></a></footer>
+      <footer><a href="#top" className="footer-brand"><img src="/assets/brand/logo-white.webp" width="45" height="45" loading="lazy" alt="" /><span>الشرق الأوسط ومشاركوه<small>للمحاماة والتحكيم</small></span></a><p>© 2026 جميع الحقوق محفوظة. <Link href="/team">فريق المحامين والمستشارين</Link></p><a href="#top" className="back-top">العودة للأعلى <ArrowUpLeft size={16} /></a></footer>
     </main>
   );
 }
