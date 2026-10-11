@@ -32,6 +32,46 @@ export default function HomePageEn({members}:{members:PublicTeamMember[]}) {
     onScroll();window.addEventListener("scroll",onScroll,{passive:true});return()=>{observer.disconnect();window.removeEventListener("scroll",onScroll);};
   },[]);
   return <main dir="ltr" className="site-shell english-shell">
+    <style jsx global>{`
+      @media (min-width: 761px) {
+        .english-shell .hero {
+          grid-template-rows: minmax(0, 1fr) auto;
+          padding-bottom: 24px;
+        }
+        .english-shell .hero-copy {
+          grid-column: 1;
+          grid-row: 1;
+          align-self: center;
+        }
+        .english-shell .hero-portrait {
+          grid-column: 2;
+          grid-row: 1;
+        }
+        .english-shell .hero-metrics {
+          position: relative;
+          right: auto;
+          left: auto;
+          bottom: auto;
+          grid-column: 1 / -1;
+          grid-row: 2;
+          width: 100%;
+          margin-top: 28px;
+        }
+      }
+      @media (min-width: 761px) and (max-width: 1100px) {
+        .english-shell .hero {
+          min-height: 980px;
+        }
+        .english-shell .hero h1 {
+          font-size: clamp(3.25rem, 6.7vw, 5rem);
+        }
+        .english-shell .hero-copy > p {
+          max-width: 520px;
+          font-size: 1rem;
+          line-height: 1.85;
+        }
+      }
+    `}</style>
     <div className="page-progress" aria-hidden="true" />
     <header className="site-header">
       <a href="#top" className="brand" aria-label="Middle East & Partners Law & Arbitration — Home"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt="Middle East & Partners logo"/><span className="brand-copy"><strong>Middle East &amp; Partners</strong><small>Law &amp; Arbitration</small></span></a>
