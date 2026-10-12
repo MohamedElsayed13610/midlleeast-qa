@@ -4,6 +4,7 @@ import FloatingWhatsApp from "@/components/floating-whatsapp";
 import "./globals.css";
 import "./practice.css";
 import "./home-sections.css";
+import "./news-image-fix.css";
 import "./mobile-fixes.css";
 import "./performance.css";
 import "./english-hero-fix.css";
