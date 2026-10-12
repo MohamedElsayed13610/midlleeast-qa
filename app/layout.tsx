@@ -11,6 +11,7 @@ import "./performance.css";
 import "./english-hero-fix.css";
 import "./hero-brandline.css";
 import "./whatsapp.css";
+import "./remove-legacy-monogram.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
