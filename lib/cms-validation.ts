@@ -23,7 +23,7 @@ export const teamInput = z.object({
   slug: z.string().regex(/^[a-z0-9][a-z0-9-]{1,99}$/), name: z.string().trim().min(3,"اكتب اسم العضو.").max(150),
   role: z.string().trim().min(2).max(200), office: z.enum(["قطر","الإمارات","لبنان","مصر","إقليمي"]),
   category: z.string().trim().min(2).max(150), practice: z.string().trim().max(250),
-  bio: z.string().trim().min(15,"اكتب نبذة وخبرات العضو.").max(6000), image_url: z.string().min(1,"ارفع صورة العضو.").max(1500),
+  bio: z.string().trim().min(15,"اكتب نبذة وخبرات العضو.").max(6000), image_url: z.string().min(1,"ارفع صورة العضو.").max(50000),
   image_width: z.number().int().min(1).max(8000), image_height: z.number().int().min(1).max(8000),
   featured: z.boolean(), is_active: z.boolean(), sort_order: z.number().int().min(0).max(10000),
 }).superRefine((value,ctx) => {
@@ -43,6 +43,7 @@ export const partnerInput = z.object({
 });
 export function validCmsImage(value: string) {
   if (!value) return true;
+  if (/^data:image\/webp;base64,[A-Za-z0-9+/]+={0,2}$/.test(value)) return true;
   if (/^\/assets\/[a-zA-Z0-9/_-]+(?:\.480)?\.(?:webp|png|jpe?g|svg)$/.test(value)) return true;
   try {
     const url = new URL(value); const base = new URL(process.env.SUPABASE_URL || "https://unconfigured.invalid");
