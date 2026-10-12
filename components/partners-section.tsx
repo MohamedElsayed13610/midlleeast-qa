@@ -38,8 +38,8 @@ export default function PartnersSection({partners,locale,index="01"}:Props) {
         <div className="partners-marquee-track">
           <div className="partners-marquee-group">
             {partners.map(partner=>partner.website_url ?
-              <a className="partner-card partner-card-marquee" href={partner.website_url} target="_blank" rel="noreferrer" key={`primary-${partner.id}`}>{partnerContent(partner)}</a> :
-              <article className="partner-card partner-card-marquee" key={`primary-${partner.id}`}>{partnerContent(partner)}</article>
+              <a className="partner-card partner-card-marquee" href={partner.website_url} target="_blank" rel="noreferrer" key={`primary-${partner.id}`}>{partnerContent(partner,true)}</a> :
+              <article className="partner-card partner-card-marquee" key={`primary-${partner.id}`}>{partnerContent(partner,true)}</article>
             )}
           </div>
           <div className="partners-marquee-group" aria-hidden="true">
