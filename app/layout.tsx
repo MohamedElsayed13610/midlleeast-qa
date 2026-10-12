@@ -6,6 +6,7 @@ import "./practice.css";
 import "./home-sections.css";
 import "./news-image-fix.css";
 import "./mobile-fixes.css";
+import "./partners-responsive.css";
 import "./performance.css";
 import "./english-hero-fix.css";
 import "./hero-brandline.css";
