@@ -3,7 +3,11 @@
 import { teamImageSources } from "@/lib/cms-types";
 import type { PublicTeamMember } from "@/lib/cms-types";
 
-const englishTeamCopy: Record<string, { name: string; role: string }> = {
+type EnglishTeamCopy = { name: string; role: string; profile?: string };
+
+const chinaLegalProfile = "Part of the firm's regional legal team, providing legal counsel on matters involving Chinese clients and China-related legal affairs.";
+
+const englishTeamCopy: Record<string, EnglishTeamCopy> = {
   "omar-saqr": { name: "Omar Saqr", role: "Head of Partnerships & Business Development" },
   "noha-mahmoud": { name: "Noha Mahmoud", role: "Lawyer" },
   "khaled-abdel-wahab": { name: "Khaled Abdel Wahab", role: "Legal Assistant" },
@@ -24,6 +28,14 @@ const englishTeamCopy: Record<string, { name: string; role: string }> = {
   "mohammed-essam-qabawa": { name: "Mohammed Essam Qabawa", role: "Lawyer" },
   "mahmoud-abdel-aziz": { name: "Mahmoud Abdel Aziz", role: "Lawyer" },
   "mohammad-arafat": { name: "Mohammad Arafat", role: "Lawyer" },
+  "blake": { name: "Blake", role: "Associate", profile: chinaLegalProfile },
+  "xueqian-huang": { name: "Xueqian Huang", role: "Senior Associate", profile: chinaLegalProfile },
+  "sujuan-zhang": {
+    name: "Sujuan Zhang",
+    role: "Manager-Partner",
+    profile: "Part of the firm's regional legal team, coordinating and supporting client matters involving Chinese clients, with a focus on effective communication and collaboration.",
+  },
+  "xueming-shen": { name: "Xueming Shen", role: "Legal Counsel", profile: chinaLegalProfile },
 };
 
 function fallbackName(member: PublicTeamMember) {
@@ -32,6 +44,7 @@ function fallbackName(member: PublicTeamMember) {
 
 export default function TeamCardEn({ member }: { member: PublicTeamMember }) {
   const copy = englishTeamCopy[member.slug] ?? { name: fallbackName(member), role: "Legal Professional" };
+  const profile = copy.profile ?? "Part of the firm's regional team, supporting client matters with focused legal and professional experience.";
 
   return (
     <details
@@ -61,7 +74,7 @@ export default function TeamCardEn({ member }: { member: PublicTeamMember }) {
       <div className="compact-bio-overlay">
         <span>{copy.role}</span>
         <h4>{copy.name}</h4>
-        <p>Part of the firm's regional team, supporting client matters with focused legal and professional experience.</p>
+        <p>{profile}</p>
       </div>
     </details>
   );
