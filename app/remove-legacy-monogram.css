@@ -1,0 +1,5 @@
+/* Remove the old M&P decorative monogram from the public site. */
+.featured-visual::before,
+.offices::after {
+  content: "" !important;
+}
