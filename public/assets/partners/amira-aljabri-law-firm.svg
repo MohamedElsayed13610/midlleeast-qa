@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">Amira Aljabri Law Firm</title>
+  <desc id="desc">Clean typographic partner mark for Amira Aljabri Law Firm</desc>
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="360" cy="90" r="58" stroke="#0B3C2F" stroke-width="4"/>
+    <path d="M329 108 360 56l31 52M344 88h32" stroke="#C2A066" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="360" y="184" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" letter-spacing="2" fill="#0B3C2F">AMIRA ALJABRI LAW FIRM</text>
+    <text x="360" y="226" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#8A7048">Sultanate of Oman</text>
+  </g>
+</svg>
