@@ -28,6 +28,10 @@
 .partner-copy p { max-width:300px; margin:0 auto; color:var(--muted); line-height:1.8; font-size:.92rem; }
 .partner-copy small { margin-top:14px; display:inline-flex; align-items:center; gap:7px; color:var(--green-800); }
 
+/* Legacy partner list is intentionally disabled: partners are marquee-only. */
+.partners-mobile-grid,
+.partners-more { display:none !important; }
+
 .partners-empty { min-height:190px; display:grid; place-items:center; text-align:center; border:1px dashed rgba(11,60,47,.2); background:rgba(255,254,249,.45); }
 .partners-empty span { color:var(--gold); font-family:"Alexandria",sans-serif; }
 .partners-empty p { max-width:520px; margin:8px auto 0; color:var(--muted); }
