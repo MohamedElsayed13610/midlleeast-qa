@@ -8,6 +8,9 @@ export const newsInput = z.object({
   content: z.string().trim().min(30,"أضف محتوى الخبر.").max(50000),
   category: z.string().trim().min(2).max(80), author: z.string().trim().max(150),
   image_url: z.string().max(1500), image_alt: z.string().trim().max(200),
+  title_en: z.string().trim().max(200).optional(), excerpt_en: z.string().trim().max(500).optional(),
+  content_en: z.string().trim().max(50000).optional(), category_en: z.string().trim().max(80).optional(),
+  author_en: z.string().trim().max(150).optional(), image_alt_en: z.string().trim().max(200).optional(),
   published_at: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(), status: z.enum(["draft","published"]),
 }).superRefine((value,ctx) => {
   if (value.image_url && !value.image_alt) ctx.addIssue({code:"custom",path:["image_alt"],message:"اكتب وصفًا للصورة."});
