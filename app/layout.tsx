@@ -3,6 +3,7 @@ import { firmLegalName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
 import "./globals.css";
 import "./practice.css";
 import "./mobile-fixes.css";
+import "./performance.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
