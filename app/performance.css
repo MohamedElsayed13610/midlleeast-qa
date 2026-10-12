@@ -1,0 +1,50 @@
+/* Performance-only rendering hints. They do not change the final visual layout. */
+
+@supports (content-visibility: auto) {
+  .practice-ticker {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 60px;
+  }
+
+  .about,
+  .practice-areas {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1000px;
+  }
+
+  .team {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 2600px;
+  }
+
+  .knowledge,
+  .offices {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1200px;
+  }
+
+  .insight,
+  .contact,
+  footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 800px;
+  }
+}
+
+@media (max-width: 920px) {
+  /* Avoid making LCP wait for decorative entrance motion on mobile. */
+  .hero-copy,
+  .hero-portrait {
+    animation: none !important;
+  }
+
+  .portrait-portal::before,
+  .portrait-portal::after {
+    animation: none !important;
+  }
+
+  /* The pointer-following spotlight has no useful interaction on touch screens. */
+  .hero-spotlight {
+    display: none;
+  }
+}
