@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+  <title id="title">THE EB-5</title>
+  <desc id="desc">Partner mark based on the EB-5 banner supplied by the firm</desc>
+  <rect width="900" height="300" rx="14" fill="#0b1730"/>
+  <text x="450" y="68" text-anchor="middle" font-family="Georgia,Times New Roman,serif" font-size="42" fill="#f4e7c8">THE</text>
+  <g font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="112" font-weight="900" text-anchor="middle">
+    <text x="450" y="178" fill="#f6f1e8" stroke="#d8c9ad" stroke-width="2">EB-5</text>
+    <path d="M304 98h40v80h-40zM344 98h40v80h-40zM384 98h40v80h-40z" fill="#b4313e" opacity=".75"/>
+  </g>
+  <text x="450" y="242" text-anchor="middle" font-family="Georgia,Times New Roman,serif" font-size="34" letter-spacing="3" fill="#f4e7c8">GATEWAY TO THE UNITED STATES</text>
+</svg>
