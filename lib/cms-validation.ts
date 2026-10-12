@@ -43,7 +43,7 @@ export const partnerInput = z.object({
 });
 export function validCmsImage(value: string) {
   if (!value) return true;
-  if (/^\/assets\/[a-zA-Z0-9/_-]+(?:\.480)?\.(?:webp|png|jpe?g)$/.test(value)) return true;
+  if (/^\/assets\/[a-zA-Z0-9/_-]+(?:\.480)?\.(?:webp|png|jpe?g|svg)$/.test(value)) return true;
   try {
     const url = new URL(value); const base = new URL(process.env.SUPABASE_URL || "https://unconfigured.invalid");
     return url.protocol==="https:" && url.origin===base.origin && /^\/storage\/v1\/object\/public\/law-cms\/[a-f0-9-]+\/[a-f0-9-]+\.(png|jpg|webp)$/.test(url.pathname) && !url.search && !url.hash;
