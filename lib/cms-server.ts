@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { cache } from "react";
 import { defaultMembers, defaultNews } from "@/lib/cms-defaults";
-import type { CmsNews, CmsTeam, PublicTeamMember } from "@/lib/cms-types";
+import type { CmsNews, CmsPartner, CmsTeam, PublicTeamMember } from "@/lib/cms-types";
 
 export function cmsConfigured() { return process.env.LAWFIRM_CMS_ENABLED==="true" && Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY); }
 export function cmsClient(accessToken?: string, extraHeaders: Record<string,string> = {}) {
@@ -41,6 +41,12 @@ export async function getPublicNews(limit?:number): Promise<CmsNews[]> {
   const { data, error } = await (limit ? query.limit(limit) : query);
   if (error) { console.error("CMS news read failed",error.code); throw new Error("تعذّر تحميل الأخبار الآن."); }
   return data as CmsNews[];
+}
+export async function getPublicPartners(): Promise<CmsPartner[]> {
+  if (!cmsConfigured()) return [];
+  const { data,error }=await cmsPublicClient().from("cms_partners").select("*").eq("is_active",true).order("sort_order").order("name_ar");
+  if (error) { console.error("CMS partners read failed",error.code); throw new Error("تعذّر تحميل شركاء المكتب الآن."); }
+  return data as CmsPartner[];
 }
 export const getPublicNewsItem=cache(async (slug: string): Promise<CmsNews | null> => {
   if (!cmsConfigured()) return defaultNews.find(item => item.slug===slug) ?? null;
