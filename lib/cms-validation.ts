@@ -27,6 +27,17 @@ export const teamInput = z.object({
   if (value.featured && compactOnlySlugs.includes(value.slug)) ctx.addIssue({code:"custom",path:["featured"],message:"هذا العضو يظهر ضمن الكروت الصغيرة حسب ترتيب الفريق المتفق عليه."});
   if(value.featured && value.office!=="قطر") ctx.addIssue({code:"custom",path:["featured"],message:"كروت الإدارة لفريق قطر."});
 });
+export const partnerInput = z.object({
+  slug: z.string().trim().regex(/^[a-z0-9][a-z0-9-]{1,99}$/,"رابط الشريك يحتاج حروفًا إنجليزية وأرقامًا وشرطات."),
+  name_ar: z.string().trim().min(2,"اكتب اسم المكتب بالعربية.").max(200),
+  name_en: z.string().trim().min(2,"اكتب اسم المكتب بالإنجليزية.").max(200),
+  country_ar: z.string().trim().min(2,"اكتب الدولة بالعربية.").max(120),
+  country_en: z.string().trim().min(2,"اكتب الدولة بالإنجليزية.").max(120),
+  description_ar: z.string().trim().max(1200), description_en: z.string().trim().max(1200),
+  logo_url: z.string().min(1,"ارفع شعار المكتب الشريك.").max(1500),
+  website_url: z.union([z.literal(""),z.string().url("اكتب رابط موقع صحيحًا.").max(1500)]),
+  is_active: z.boolean(), sort_order: z.number().int().min(0).max(10000),
+});
 export function validCmsImage(value: string) {
   if (!value) return true;
   if (/^\/assets\/[a-zA-Z0-9/_-]+(?:\.480)?\.(?:webp|png|jpe?g)$/.test(value)) return true;
