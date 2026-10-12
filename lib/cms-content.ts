@@ -1,15 +1,18 @@
 import { z } from "zod";
 import { CmsError } from "@/lib/cms-auth";
-import { newsInput, teamInput, validCmsImage } from "@/lib/cms-validation";
+import { newsInput, partnerInput, teamInput, validCmsImage } from "@/lib/cms-validation";
 
 export function contentTable(kind:string) {
-  if (kind!=="news" && kind!=="team") throw new CmsError(404,"القسم غير موجود.");
-  return kind==="news" ? "cms_news" : "cms_team";
+  if (kind!=="news" && kind!=="team" && kind!=="partners") throw new CmsError(404,"القسم غير موجود.");
+  if (kind==="news") return "cms_news";
+  if (kind==="team") return "cms_team";
+  return "cms_partners";
 }
 export function contentInput(kind:string,value:unknown):Record<string,string|number|boolean|null> {
   contentTable(kind);
-  const data=kind==="news" ? newsInput.parse(value) : teamInput.parse(value);
-  if (!validCmsImage(data.image_url)) throw new CmsError(400,"ارفع الصورة من لوحة التحكم.");
+  const data=kind==="news" ? newsInput.parse(value) : kind==="team" ? teamInput.parse(value) : partnerInput.parse(value);
+  const image=kind==="partners" ? data.logo_url : data.image_url;
+  if (!validCmsImage(image)) throw new CmsError(400,"ارفع الصورة من لوحة التحكم.");
   return data;
 }
 export const recordId=z.string().uuid("معرّف المحتوى غير صحيح.");
