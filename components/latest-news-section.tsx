@@ -9,7 +9,13 @@ export default function LatestNewsSection({news,locale,index="02"}:Props) {
   const basePath=ar ? "/news" : "/en/news";
   return <section id="knowledge" className="latest-news section-pad">
     <div className="section-index light reveal" data-reveal><span>{index}</span><p>{ar ? "أحدث الأخبار" : "Latest News"}</p></div>
-    <div className="latest-news-heading reveal" data-reveal><div><span className="kicker">{ar ? "من المكتب" : "From the firm"}</span><h2>{ar ? <>آخر ما نُشر،<br/><em>بوضوح واختصار.</em></> : <>The latest updates,<br/><em>clearly presented.</em></>}</h2></div></div>
+    <div className="latest-news-heading reveal" data-reveal>
+      <div>
+        <span className="kicker">{ar ? "من المكتب" : "From the firm"}</span>
+        <h2>{ar ? "آخر الأخبار والمستجدات" : "The latest updates"}</h2>
+      </div>
+      <p>{ar ? "اطّلع على أحدث أخبار المكتب، وأبرز إنجازاته ومشاركاته المهنية." : "Explore the firm's latest news, key achievements, and professional engagements."}</p>
+    </div>
     <div className="latest-news-grid">{news.slice(0,2).map(item=>{
       const title=ar ? item.title : (item.title_en?.trim() || item.title);
       const excerpt=ar ? item.excerpt : (item.excerpt_en?.trim() || item.excerpt);
