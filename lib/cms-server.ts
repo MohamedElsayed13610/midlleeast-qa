@@ -3,6 +3,44 @@ import { cache } from "react";
 import { defaultMembers, defaultNews } from "@/lib/cms-defaults";
 import type { CmsNews, CmsPartner, CmsTeam, PublicTeamMember } from "@/lib/cms-types";
 
+const featuredPartners: CmsPartner[] = [
+  {
+    id: "british-chamber-commerce-qatar",
+    slug: "british-chamber-commerce-qatar",
+    name_ar: "غرفة التجارة البريطانية في قطر",
+    name_en: "British Chamber of Commerce Qatar (BCCQ)",
+    country_ar: "قطر — المملكة المتحدة",
+    country_en: "Qatar · United Kingdom",
+    description_ar: "",
+    description_en: "",
+    logo_url: "https://britishchamberqatar.com/wp-content/uploads/2025/12/bccq-icon-combo.svg",
+    website_url: "https://britishchamberqatar.com/",
+    is_active: true,
+    sort_order: 1000,
+    updated_at: "2026-10-12T00:00:00.000Z",
+  },
+  {
+    id: "official-chamber-commerce-spain-qatar",
+    slug: "official-chamber-commerce-spain-qatar",
+    name_ar: "غرفة التجارة الإسبانية الرسمية في قطر",
+    name_en: "Official Chamber of Commerce of Spain in Qatar",
+    country_ar: "قطر — إسبانيا",
+    country_en: "Qatar · Spain",
+    description_ar: "",
+    description_en: "",
+    logo_url: "https://www.google.com/s2/favicons?sz=256&domain_url=https://camaraspainqatar.com",
+    website_url: "https://camaraspainqatar.com/",
+    is_active: true,
+    sort_order: 1010,
+    updated_at: "2026-10-12T00:00:00.000Z",
+  },
+];
+
+function includeFeaturedPartners(partners: CmsPartner[]) {
+  const existing = new Set(partners.map((partner) => partner.slug));
+  return [...partners, ...featuredPartners.filter((partner) => !existing.has(partner.slug))];
+}
+
 export function cmsConfigured() { return process.env.LAWFIRM_CMS_ENABLED==="true" && Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY); }
 export function cmsClient(accessToken?: string, extraHeaders: Record<string,string> = {}) {
   const url = process.env.SUPABASE_URL;
@@ -43,10 +81,10 @@ export async function getPublicNews(limit?:number): Promise<CmsNews[]> {
   return data as CmsNews[];
 }
 export async function getPublicPartners(): Promise<CmsPartner[]> {
-  if (!cmsConfigured()) return [];
+  if (!cmsConfigured()) return featuredPartners;
   const { data,error }=await cmsPublicClient().from("cms_partners").select("*").eq("is_active",true).order("sort_order").order("name_ar");
   if (error) { console.error("CMS partners read failed",error.code); throw new Error("تعذّر تحميل شركاء المكتب الآن."); }
-  return data as CmsPartner[];
+  return includeFeaturedPartners(data as CmsPartner[]);
 }
 export const getPublicNewsItem=cache(async (slug: string): Promise<CmsNews | null> => {
   if (!cmsConfigured()) return defaultNews.find(item => item.slug===slug) ?? null;
