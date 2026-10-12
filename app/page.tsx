@@ -6,7 +6,7 @@ import { legalServices } from "@/lib/services";
 
 export const metadata = {
   ...pageMetadata("مكتب محاماة واستشارات قانونية في قطر", firmDescription, "/"),
-  title: { absolute: `مكتب محاماة في قطر | ${firmLegalName}` },
+  title: { absolute: `${firmLegalName} | مكتب محاماة في قطر` },
   alternates: { canonical: absoluteUrl("/"), languages: { ar: absoluteUrl("/"), en: absoluteUrl("/en") } },
 };
 
