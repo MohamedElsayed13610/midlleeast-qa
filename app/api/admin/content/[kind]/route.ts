@@ -6,7 +6,8 @@ type Params={params:Promise<{kind:string}>};
 export async function GET(request:NextRequest,{params}:Params) {
   return withAdmin(request,async ({client})=>{
     const {kind}=await params;
-    const result=await client.from(contentTable(kind)).select("*").order(kind==="team" ? "sort_order" : "created_at",{ascending:kind==="team"}).limit(500);
+    const orderColumn=kind==="team" || kind==="partners" ? "sort_order" : "created_at";
+    const result=await client.from(contentTable(kind)).select("*").order(orderColumn,{ascending:kind!=="news"}).limit(500);
     if (result.error) throw databaseError(result.error.code);
     return adminJson({items:result.data});
   });
