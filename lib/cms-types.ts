@@ -8,6 +8,11 @@ export type CmsNews = {
   author: string; image_url: string; image_alt: string; published_at: string | null;
   status: "draft" | "published"; updated_at: string;
 };
+export type CmsPartner = {
+  id: string; slug: string; name_ar: string; name_en: string; country_ar: string; country_en: string;
+  description_ar: string; description_en: string; logo_url: string; website_url: string;
+  is_active: boolean; sort_order: number; updated_at: string;
+};
 export type PublicTeamMember = {
   slug: string; name: string; role: string; office: string; category: string; practice: string;
   bio: string; image: string; width: number; height: number; featured: boolean; sort_order: number;
