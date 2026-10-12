@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: { type: "website", locale: "en_QA", siteName: "Middle East & Partners", title: "Law Firm in Qatar | Middle East & Partners", description: "Regional legal advice and representation from Lusail, Qatar.", url: absoluteUrl("/en") },
 };
 
-export const revalidate = 300;
+export const revalidate = 0;
 export default async function EnglishHome() {
   const members = await getPublicMembers();
   return <>
