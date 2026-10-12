@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { firmLegalName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
+import FloatingWhatsApp from "@/components/floating-whatsapp";
 import "./globals.css";
 import "./practice.css";
 import "./mobile-fixes.css";
 import "./performance.css";
+import "./whatsapp.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -19,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ar" dir="rtl">
       <head><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /></head>
-      <body>{children}<noscript><style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style></noscript></body>
+      <body>{children}<FloatingWhatsApp /><noscript><style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style></noscript></body>
     </html>
   );
 }
