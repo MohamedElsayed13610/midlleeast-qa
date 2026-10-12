@@ -1,9 +1,9 @@
-/* Partner presentation: static and fully visible on desktop, marquee on mobile. */
+/* Partners: static, balanced grid on tablet/laptop/desktop; moving marquee only on mobile. */
 @media (min-width: 761px) {
   .partners-marquee {
     width: 100%;
     margin-inline: 0;
-    padding: 8px 0 4px;
+    padding: 10px 0 4px;
     overflow: visible;
     direction: inherit;
     -webkit-mask-image: none;
@@ -18,44 +18,97 @@
     will-change: auto;
   }
 
-  .partners-marquee-group {
+  .partners-marquee-group:first-child {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(22px, 2.4vw, 38px);
     align-items: stretch;
-    gap: clamp(18px, 2.2vw, 34px);
   }
 
   .partners-marquee-group[aria-hidden="true"] {
-    display: none;
+    display: none !important;
   }
 
   .partner-card-marquee {
-    width: auto;
-    min-height: 210px;
-    padding: 12px 12px 18px;
-    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    flex: none;
+    min-height: 228px;
+    padding: 16px 14px 20px;
+    gap: 10px;
+    border: 1px solid rgba(11, 60, 47, .10);
+    border-radius: 18px;
+    background: rgba(255, 254, 249, .68);
+  }
+
+  .partner-card-marquee:hover {
+    transform: translateY(-3px);
+    border-color: rgba(194, 160, 102, .32);
   }
 
   .partner-logo {
-    height: 132px;
-    padding: 0 10px;
+    height: 142px;
+    padding: 8px 12px;
   }
 
   .partner-logo img {
-    max-width: 245px;
+    max-width: 250px;
+    max-height: 126px;
+  }
+
+  .partner-copy h3 {
+    font-size: 1.08rem;
+    margin-top: 4px;
+  }
+
+  .partner-copy span {
+    font-size: .7rem;
   }
 }
 
-/* Mobile intentionally keeps the existing continuous marquee animation. */
+@media (min-width: 1400px) {
+  .partners-marquee-group:first-child {
+    gap: 30px;
+  }
+
+  .partner-card-marquee {
+    min-height: 238px;
+  }
+
+  .partner-logo {
+    height: 150px;
+  }
+}
+
 @media (max-width: 760px) {
+  .partners-marquee {
+    overflow: hidden;
+  }
+
   .partners-marquee-track {
+    display: flex;
+    width: max-content;
     animation: partners-marquee 24s linear infinite;
+    will-change: transform;
+  }
+
+  .partners-marquee-group {
+    display: flex;
+    width: auto;
+    gap: var(--partner-gap);
+  }
+
+  .partner-card-marquee {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
   }
 }
 
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
   .partners-marquee-track {
     animation: none;
+    transform: none;
   }
 }
