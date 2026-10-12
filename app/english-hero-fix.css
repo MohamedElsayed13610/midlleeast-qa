@@ -51,3 +51,16 @@
   font-size: .72rem;
   letter-spacing: .2em;
 }
+
+/* Arabic header brand subtitle requested by the client. */
+.site-shell:not(.english-shell) .brand-copy small {
+  font-size: 0 !important;
+  direction: ltr;
+}
+
+.site-shell:not(.english-shell) .brand-copy small::after {
+  content: "L M E LAWFIRM";
+  font-size: .68rem;
+  letter-spacing: .12em;
+  white-space: nowrap;
+}
