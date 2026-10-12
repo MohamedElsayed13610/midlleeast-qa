@@ -2,20 +2,38 @@
 @media (min-width: 921px) {
   .english-shell .hero {
     height: auto !important;
-    min-height: max(860px, 100svh) !important;
+    min-height: max(900px, 100svh) !important;
     grid-template-rows: auto auto !important;
-    row-gap: 32px !important;
-    padding-bottom: 40px !important;
+    row-gap: 42px !important;
+    padding-bottom: 48px !important;
+    align-items: center !important;
   }
 
   .english-shell .hero-copy {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
     align-self: center !important;
-    padding-bottom: 18px;
+    padding-bottom: 72px !important;
+  }
+
+  .english-shell .hero-portrait {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  .english-shell .hero-actions {
+    margin-bottom: 0 !important;
   }
 
   .english-shell .hero-metrics {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
     margin-top: 0 !important;
-    align-self: end;
+    align-self: end !important;
+    clear: both;
   }
 
   .english-shell .scroll-cue {
