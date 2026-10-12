@@ -23,7 +23,7 @@ function cmsPublicClient() {
     global: {
       fetch: (input,init) => fetch(input, {
         ...init,
-        next: { revalidate: 300 },
+        cache: "no-store",
       }),
     },
   });
