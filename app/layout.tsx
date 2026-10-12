@@ -5,6 +5,7 @@ import "./globals.css";
 import "./practice.css";
 import "./mobile-fixes.css";
 import "./performance.css";
+import "./english-hero-fix.css";
 import "./whatsapp.css";
 
 export const metadata: Metadata = {
