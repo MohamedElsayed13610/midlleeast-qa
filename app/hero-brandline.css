@@ -1,20 +1,6 @@
-/* Prominent firm identity line above the hero eyebrow and under the logo in both languages. */
-.brand-copy small {
-  display: block !important;
-  font-size: 0 !important;
-}
-
-.site-header .brand-copy small::after {
-  content: "L.M.E LAWFIRM";
-  display: block;
-  direction: ltr;
-  unicode-bidi: isolate;
-  white-space: nowrap;
-  font-size: .76rem;
-  line-height: 1.25;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+/* Prominent firm identity line above the hero eyebrow. */
+.site-header .brand-copy small {
+  display: none !important;
 }
 
 .hero-copy::before {
@@ -37,10 +23,5 @@
     margin-bottom: 10px;
     font-size: clamp(1.08rem, 5.2vw, 1.42rem);
     letter-spacing: .09em;
-  }
-
-  .site-header .brand-copy small::after {
-    font-size: .64rem;
-    letter-spacing: .06em;
   }
 }
