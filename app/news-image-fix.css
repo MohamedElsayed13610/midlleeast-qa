@@ -1,0 +1,30 @@
+/* Keep portrait/news images fully visible instead of cropping them. */
+.latest-news-image {
+  background: #0a3b30;
+}
+.latest-news-image img {
+  object-fit: contain !important;
+  object-position: center center;
+  background: #0a3b30;
+}
+.news-list-card img {
+  width: 100%;
+  height: auto !important;
+  max-height: 520px;
+  object-fit: contain !important;
+  object-position: center center;
+  background: var(--paper);
+}
+.news-cover {
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center;
+  display: block;
+  background: var(--paper);
+}
+@media (max-width: 760px) {
+  .latest-news-image { aspect-ratio: 4 / 3; }
+  .news-list-card img { max-height: 440px; }
+}
