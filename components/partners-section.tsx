@@ -6,6 +6,7 @@ type Props={partners:CmsPartner[];locale:"ar"|"en";index?:string};
 
 export default function PartnersSection({partners,locale,index="01"}:Props) {
   const ar=locale==="ar";
+  const uniquePartners=partners.filter((partner,index,list)=>list.findIndex(item=>item.id===partner.id||item.slug===partner.slug)===index);
 
   const partnerContent=(partner:CmsPartner)=>{
     const name=ar ? partner.name_ar : partner.name_en;
@@ -26,16 +27,13 @@ export default function PartnersSection({partners,locale,index="01"}:Props) {
       <p>{ar ? "نتعاون مع مكاتب قانونية وجهات مهنية دولية لتوسيع نطاق الدعم والخدمات المقدمة لعملائنا داخل دولة قطر وخارجها." : "We collaborate with international law firms and professional organizations to extend the support and services available to our clients in Qatar and across borders."}</p>
     </div>
 
-    {partners.length ? <div className="partners-marquee reveal" data-reveal aria-label={ar?"شبكة شركائنا":"Our partner network"}>
-      <div className="partners-marquee-track">
-        <div className="partners-marquee-group">
-          {partners.map(partner=>partner.website_url ?
-            <a className="partner-card partner-card-marquee" href={partner.website_url} target="_blank" rel="noreferrer" key={`primary-${partner.id}`}>{partnerContent(partner)}</a> :
-            <article className="partner-card partner-card-marquee" key={`primary-${partner.id}`}>{partnerContent(partner)}</article>
+    {uniquePartners.length ? <div className="partners-marquee reveal" data-reveal aria-label={ar?"شبكة شركائنا":"Our partner network"}>
+      <div className="partners-marquee-track" style={{animation:"none",width:"100%"}}>
+        <div className="partners-marquee-group" style={{width:"100%",flexWrap:"wrap",justifyContent:"center"}}>
+          {uniquePartners.map(partner=>partner.website_url ?
+            <a className="partner-card partner-card-marquee" href={partner.website_url} target="_blank" rel="noreferrer" key={partner.id}>{partnerContent(partner)}</a> :
+            <article className="partner-card partner-card-marquee" key={partner.id}>{partnerContent(partner)}</article>
           )}
-        </div>
-        <div className="partners-marquee-group" aria-hidden="true">
-          {partners.map(partner=><div className="partner-card partner-card-marquee partner-card-clone" key={`clone-${partner.id}`}>{partnerContent(partner)}</div>)}
         </div>
       </div>
     </div> : <div className="partners-empty reveal" data-reveal><span>{ar ? "شبكة الشركاء" : "Partner network"}</span><p>{ar ? "سيتم إضافة شعارات وبيانات الشركاء من لوحة إدارة الموقع." : "Partner logos and details will appear here once added from the website dashboard."}</p></div>}
