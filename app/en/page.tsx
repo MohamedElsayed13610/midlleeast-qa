@@ -5,10 +5,10 @@ import { absoluteUrl, firmSchema } from "@/lib/seo";
 import { legalServicesEn } from "@/lib/services-en";
 
 export const metadata = {
-  title: { absolute: "Law Firm in Qatar | Middle East & Partners" },
+  title: { absolute: "Middle East & Partners Law Firm | Law Firm in Qatar" },
   description: "Middle East & Partners is a law and legal advisory firm in Qatar serving companies and individuals across corporate, disputes, contracts, employment, technology, real estate and other practice areas.",
   alternates: { canonical: absoluteUrl("/en"), languages: { ar: absoluteUrl("/"), en: absoluteUrl("/en") } },
-  openGraph: { type: "website", locale: "en_QA", siteName: "Middle East & Partners", title: "Law Firm in Qatar | Middle East & Partners", description: "Regional legal advice and representation from Lusail, Qatar.", url: absoluteUrl("/en") },
+  openGraph: { type: "website", locale: "en_QA", siteName: "Middle East & Partners", title: "Middle East & Partners Law Firm | Law Firm in Qatar", description: "Regional legal advice and representation from Lusail, Qatar.", url: absoluteUrl("/en") },
 };
 
 export const revalidate = 0;
