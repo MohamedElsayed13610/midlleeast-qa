@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import PracticeAreasEn from "@/components/practice-areas-en";
 import TeamCardEn from "@/components/team-card-en";
+import { Button } from "@/components/ui/button";
+import { groupTeam } from "@/lib/cms-types";
 import type { PublicTeamMember } from "@/lib/cms-types";
 
 const offices = [
@@ -20,19 +22,21 @@ const featuredEnglish: Record<string,{name:string;role:string;office:string}> = 
   "ahmed-elhout": { name:"Ahmed El-Hout", role:"Lawyer — Partner", office:"Qatar" },
   "hanna-nashef": { name:"Hanna Nashef", role:"Lawyer before the Courts of Appeal and Cassation", office:"Qatar" },
   "al-sayed-matouq": { name:"Al-Sayed Matouq", role:"Senior Legal Counsel", office:"Qatar" },
-  "rafiq-ghraizi": { name:"Rafiq Ghraizi", role:"Partner — Lawyer", office:"Qatar" },
+  "rafiq-ghraizi": { name:"Rafiq Ghraizi", role:"Partner — Lawyer", office:"Lebanon" },
 };
 
 export default function HomePageEn({members}:{members:PublicTeamMember[]}) {
   const [menuOpen,setMenuOpen]=useState(false);
-  const featured=useMemo(()=>members.filter(m=>featuredEnglish[m.slug]).slice(0,6),[members]);
-  const additionalTeam=useMemo(()=>members.filter(m=>!featuredEnglish[m.slug]),[members]);
+  const [showRegionalTeam,setShowRegionalTeam]=useState(false);
+  const {featured:qatarFeaturedPeople,compact:qatarRemainingPeople,regional:regionalPeople}=groupTeam(members);
+
   useEffect(()=>{
     const observer=new IntersectionObserver(entries=>entries.forEach(entry=>entry.isIntersecting&&entry.target.classList.add("is-visible")),{threshold:.1,rootMargin:"0px 0px -6%"});
     document.querySelectorAll("[data-reveal]").forEach(el=>observer.observe(el));
     const onScroll=()=>{const page=document.documentElement;const max=page.scrollHeight-window.innerHeight;page.style.setProperty("--scroll-progress",`${max>0?(window.scrollY/max)*100:0}%`);document.querySelector(".site-header")?.classList.toggle("is-scrolled",window.scrollY>28);};
     onScroll();window.addEventListener("scroll",onScroll,{passive:true});return()=>{observer.disconnect();window.removeEventListener("scroll",onScroll);};
   },[]);
+
   return <main dir="ltr" className="site-shell english-shell">
     <style jsx global>{`
       @media (min-width: 761px) {
@@ -88,7 +92,14 @@ export default function HomePageEn({members}:{members:PublicTeamMember[]}) {
 
     <PracticeAreasEn/>
 
-    <section id="team" className="team section-pad"><div className="team-heading reveal" data-reveal><div><div className="section-index"><span>03</span><p>Our Team</p></div><h2>Different legal minds.<br/><em>One professional standard.</em></h2></div><div className="team-count"><strong>{members.length}</strong><span>professionals across<br/>one regional network</span></div></div><div className="featured-stack">{featured.map((member,index)=>{const copy=featuredEnglish[member.slug];return <article className={`featured-person reveal ${index%2?"tone-sand":"tone-green"}`} data-reveal key={member.slug}><div className="featured-visual"><span className="featured-index">{String(index+1).padStart(2,"0")}</span><span className="featured-halo"/><img src={member.image} alt={copy.name} width={member.width} height={member.height} loading="lazy" decoding="async"/></div><div className="featured-copy"><div className="featured-meta"><span>{copy.role}</span><i>{copy.office}</i></div><h3>{copy.name}</h3><p>Part of the firm's regional legal team, bringing focused experience and coordinated support to client matters.</p><span className="featured-rule"/></div></article>;})}</div><div className="directory-head reveal" data-reveal><div><span>Professional Network</span><strong>Meet the rest of our team</strong></div><p>Lawyers, legal professionals and support specialists working across the firm's regional network.</p></div><div className="compact-team-grid">{additionalTeam.map(member=><TeamCardEn key={member.slug} member={member}/>)}</div></section>
+    <section id="team" className="team section-pad">
+      <div className="team-heading reveal" data-reveal><div><div className="section-index"><span>03</span><p>Our Team</p></div><h2>Different legal minds.<br/><em>One professional standard.</em></h2></div><div className="team-count"><strong>{members.length}</strong><span>professionals across<br/>one regional network</span></div></div>
+      <div className="featured-stack">{qatarFeaturedPeople.map((member,index)=>{const copy=featuredEnglish[member.slug] ?? {name:member.name,role:member.role,office:"Qatar"};return <article className={`featured-person reveal ${index%2?"tone-sand":"tone-green"}`} data-reveal key={member.slug}><div className="featured-visual"><span className="featured-index">{String(index+1).padStart(2,"0")}</span><span className="featured-halo"/><img src={member.image} alt={copy.name} width={member.width} height={member.height} loading="lazy" decoding="async"/></div><div className="featured-copy"><div className="featured-meta"><span>{copy.role}</span><i>{copy.office}</i></div><h3>{copy.name}</h3><p>Part of the firm's regional legal team, bringing focused experience and coordinated support to client matters.</p><span className="featured-rule"/></div></article>;})}</div>
+      <div className="directory-head reveal" data-reveal><div><span>Professional Network</span><strong>Our Team</strong></div><p>Lawyers and legal professionals bringing together diverse areas of experience.</p></div>
+      <div className="compact-team-grid">{qatarRemainingPeople.map(member=><TeamCardEn key={member.slug} member={member}/>)}</div>
+      <div className="team-directory-action"><Button className="button button-gold" aria-expanded={showRegionalTeam} aria-controls="regional-team-en" onClick={()=>setShowRegionalTeam(value=>!value)}>{showRegionalTeam?"Hide the rest":"Show the rest"}</Button></div>
+      <div id="regional-team-en" hidden={!showRegionalTeam}><div className="directory-head"><div><span>Professional Network</span><strong>Regional Team</strong></div></div><div className="compact-team-grid">{regionalPeople.map(member=><TeamCardEn key={member.slug} member={member}/>)}</div></div>
+    </section>
 
     <section id="offices" className="offices section-pad"><div className="section-index light reveal" data-reveal><span>04</span><p>Regional Presence</p></div><div className="offices-intro reveal" data-reveal><h2>Local knowledge.<br/><em>Connected across borders.</em></h2><p>Four offices working as one team to provide consistent legal support across the region.</p></div><div className="offices-grid">{offices.map((office,index)=><article className={`office-card reveal delay-${index%2}`} data-reveal key={office.country}><div className="office-card-top"><span>{office.number}</span><i>{office.mark}</i></div><div><h3>{office.country}</h3><strong>{office.city}</strong><p>{office.address}</p></div></article>)}</div></section>
 
