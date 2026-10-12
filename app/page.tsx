@@ -10,10 +10,11 @@ export const metadata = {
   alternates: { canonical: absoluteUrl("/"), languages: { ar: absoluteUrl("/"), en: absoluteUrl("/en") } },
 };
 
-export const dynamic="force-dynamic";
+export const revalidate = 300;
 export default async function Home() {
   const [members,news]=await Promise.all([getPublicMembers(),getPublicNews(4)]);
   return <>
+    <link rel="preload" as="image" href="/assets/team/mohamed-bin-aujan-cutout.webp" type="image/webp" />
     <StructuredData data={{ "@context": "https://schema.org", "@graph": [
       { ...firmSchema, hasOfferCatalog: { "@type": "OfferCatalog", name: "خدمات المكتب القانونية", itemListElement: legalServices.map(service => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: service.title, url: absoluteUrl(`/services/${service.slug}`) } })) } },
       { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: firmLegalName, inLanguage: "ar", publisher: { "@id": firmSchema["@id"] } },
