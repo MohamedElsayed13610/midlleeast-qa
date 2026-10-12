@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">Al-Oujan Lawyers</title>
+  <desc id="desc">Temporary typographic partner mark for Al-Oujan Lawyers</desc>
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="360" cy="92" r="62" stroke="#0B3C2F" stroke-width="4"/>
+    <path d="M322 112 360 51l38 61M338 91h44" stroke="#C2A066" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="360" y="190" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="3" fill="#0B3C2F">AL-OUJAN LAWYERS</text>
+    <text x="360" y="232" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#8A7048">مكتب العوجان للمحاماة</text>
+  </g>
+</svg>
