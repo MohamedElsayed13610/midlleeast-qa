@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+  <title id="title">Securita Re</title>
+  <desc id="desc">Partner mark based on the Securita Re branding visible in the supplied event banner.</desc>
+  <g fill="none" fill-rule="evenodd">
+    <path d="M440 62 500 82v54c0 45-24 78-60 101-36-23-60-56-60-101V82l60-20Z" fill="#0B3C2F"/>
+    <path d="M401 108h78M409 139h62M419 170h42" stroke="#C2A066" stroke-width="12" stroke-linecap="round"/>
+    <text x="74" y="176" font-family="Arial,Helvetica,sans-serif" font-size="78" letter-spacing="2" fill="#0B3C2F">SECURITA</text>
+    <text x="540" y="176" font-family="Arial,Helvetica,sans-serif" font-size="78" font-weight="700" letter-spacing="4" fill="#0B3C2F">RE</text>
+  </g>
+</svg>
