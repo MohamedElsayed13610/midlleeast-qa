@@ -1,15 +1,33 @@
-/* Partners: minimal logo presentation. Static on tablet/laptop/desktop; moving marquee only on mobile. */
-.partner-copy h3 {
-  display: none;
+/* Partners: logo + firm name + country. Static on tablet/laptop/desktop; horizontal marquee on mobile only. */
+.partner-card-marquee {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .partner-copy {
-  margin-top: 6px;
+  width: 100%;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.partner-copy h3 {
+  display: block;
+  margin: 0 0 4px;
+  font-family: "Alexandria", sans-serif;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .partner-copy span {
   display: block;
+  color: var(--gold);
   text-align: center;
+  font-family: "Alexandria", sans-serif;
+  font-size: .72rem;
+  letter-spacing: .04em;
 }
 
 @media (min-width: 761px) {
@@ -35,8 +53,8 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: clamp(34px, 4vw, 72px);
-    row-gap: clamp(30px, 3vw, 48px);
+    column-gap: clamp(38px, 4vw, 76px);
+    row-gap: clamp(34px, 3vw, 50px);
     align-items: start;
   }
 
@@ -50,11 +68,7 @@
     min-height: 0;
     flex: none;
     padding: 0;
-    gap: 4px;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    gap: 0;
   }
 
   .partner-card-marquee:hover {
@@ -62,22 +76,17 @@
   }
 
   .partner-logo {
-    height: 150px;
-    padding: 0 12px;
+    height: 148px;
+    padding: 0 14px;
     background: transparent;
   }
 
   .partner-logo img {
     width: 100%;
     height: 100%;
-    max-width: 265px;
-    max-height: 138px;
+    max-width: 270px;
+    max-height: 136px;
     object-fit: contain;
-  }
-
-  .partner-copy span {
-    margin-top: 2px;
-    font-size: .74rem;
   }
 }
 
@@ -87,19 +96,28 @@
   }
 
   .partner-logo img {
-    max-width: 285px;
+    max-width: 290px;
     max-height: 146px;
   }
 }
 
 @media (max-width: 760px) {
   .partners-marquee {
+    --partner-gap: 18px;
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+    padding: 6px 0 8px;
     overflow: hidden;
+    direction: ltr;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
   }
 
   .partners-marquee-track {
     display: flex;
     width: max-content;
+    align-items: flex-start;
+    gap: var(--partner-gap);
     animation: partners-marquee 24s linear infinite;
     will-change: transform;
   }
@@ -107,17 +125,42 @@
   .partners-marquee-group {
     display: flex;
     width: auto;
+    flex: none;
+    align-items: flex-start;
     gap: var(--partner-gap);
   }
 
   .partner-card-marquee {
-    border: 0;
-    border-radius: 0;
-    background: transparent;
+    width: 238px;
+    flex: 0 0 238px;
+    min-height: 205px;
+    padding: 8px 6px 14px;
+    gap: 0;
+  }
+
+  .partner-logo {
+    height: 136px;
+    padding: 0 6px;
+  }
+
+  .partner-logo img {
+    width: 100%;
+    height: 100%;
+    max-width: 215px;
+    object-fit: contain;
+  }
+
+  .partner-copy {
+    margin-top: 6px;
+  }
+
+  .partner-copy h3 {
+    font-size: 1rem;
+    margin-bottom: 3px;
   }
 
   .partner-copy span {
-    margin-top: 2px;
+    font-size: .66rem;
   }
 }
 
@@ -125,5 +168,20 @@
   .partners-marquee-track {
     animation: none;
     transform: none;
+  }
+
+  .partners-marquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .partners-marquee::-webkit-scrollbar {
+    display: none;
+  }
+
+  .partners-marquee-group[aria-hidden="true"] {
+    display: none;
   }
 }
