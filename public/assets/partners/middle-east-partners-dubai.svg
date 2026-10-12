@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" role="img" aria-labelledby="title desc">
+  <title id="title">Middle East &amp; Partners Dubai</title>
+  <desc id="desc">Clean typographic partner mark for Middle East &amp; Partners Dubai</desc>
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="360" cy="88" r="58" stroke="#0B3C2F" stroke-width="4"/>
+    <path d="M329 108 360 55l31 53M343 88h34" stroke="#C2A066" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="360" y="182" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#0B3C2F">MIDDLE EAST &amp; PARTNERS</text>
+    <text x="360" y="226" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#8A7048">Dubai · United Arab Emirates</text>
+  </g>
+</svg>
