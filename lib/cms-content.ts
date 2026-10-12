@@ -10,9 +10,18 @@ export function contentTable(kind:string) {
 }
 export function contentInput(kind:string,value:unknown):Record<string,string|number|boolean|null> {
   contentTable(kind);
-  const data=kind==="news" ? newsInput.parse(value) : kind==="team" ? teamInput.parse(value) : partnerInput.parse(value);
-  const image=kind==="partners" ? data.logo_url : data.image_url;
-  if (!validCmsImage(image)) throw new CmsError(400,"ارفع الصورة من لوحة التحكم.");
+  if (kind==="partners") {
+    const data=partnerInput.parse(value);
+    if (!validCmsImage(data.logo_url)) throw new CmsError(400,"ارفع شعار المكتب الشريك من لوحة التحكم.");
+    return data;
+  }
+  if (kind==="news") {
+    const data=newsInput.parse(value);
+    if (!validCmsImage(data.image_url)) throw new CmsError(400,"ارفع الصورة من لوحة التحكم.");
+    return data;
+  }
+  const data=teamInput.parse(value);
+  if (!validCmsImage(data.image_url)) throw new CmsError(400,"ارفع الصورة من لوحة التحكم.");
   return data;
 }
 export const recordId=z.string().uuid("معرّف المحتوى غير صحيح.");
