@@ -1,7 +1,7 @@
 import { getPublicMembers, getPublicNews, getPublicPartners } from "@/lib/cms-server";
 import HomePage from "@/components/home-page";
 import StructuredData from "@/components/structured-data";
-import { absoluteUrl, firmDescription, firmLegalName, firmSchema, pageMetadata } from "@/lib/seo";
+import { absoluteUrl, firmDescription, firmEnglishName, firmLegalName, firmSchema, pageMetadata } from "@/lib/seo";
 import { legalServices } from "@/lib/services";
 
 export const metadata = {
@@ -17,8 +17,9 @@ export default async function Home() {
     <link rel="preload" as="image" href="/assets/team/mohamed-bin-aujan-cutout.webp" type="image/webp" />
     <StructuredData data={{ "@context": "https://schema.org", "@graph": [
       { ...firmSchema, hasOfferCatalog: { "@type": "OfferCatalog", name: "خدمات المكتب القانونية", itemListElement: legalServices.map(service => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: service.title, url: absoluteUrl(`/services/${service.slug}`) } })) } },
-      { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: firmLegalName, inLanguage: "ar", publisher: { "@id": firmSchema["@id"] } },
-      { "@type": "WebPage", "@id": absoluteUrl("/#webpage"), url: absoluteUrl(), name: "مكتب محاماة واستشارات قانونية في قطر", description: firmDescription, inLanguage: "ar", isPartOf: { "@id": absoluteUrl("/#website") }, about: { "@id": firmSchema["@id"] } },
+      { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: firmLegalName, alternateName: [firmEnglishName, "Middle East & Partners", "L.M.E LAWFIRM"], inLanguage: ["ar", "en"], publisher: { "@id": firmSchema["@id"] } },
+      { "@type": "WebPage", "@id": absoluteUrl("/#webpage"), url: absoluteUrl(), name: `${firmLegalName} | مكتب محاماة في قطر`, description: firmDescription, inLanguage: "ar", isPartOf: { "@id": absoluteUrl("/#website") }, about: { "@id": firmSchema["@id"] } },
+      { "@type": "SiteNavigationElement", name: ["من نحن", "فريقنا", "الأخبار", "الاستشارات القانونية"], url: [absoluteUrl("/about"), absoluteUrl("/team"), absoluteUrl("/news"), absoluteUrl("/consultation")] },
     ] }} />
     <HomePage members={members} news={news} partners={partners}/>
   </>;
