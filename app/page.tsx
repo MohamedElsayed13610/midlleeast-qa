@@ -10,7 +10,7 @@ export const metadata = {
   alternates: { canonical: absoluteUrl("/"), languages: { ar: absoluteUrl("/"), en: absoluteUrl("/en") } },
 };
 
-export const revalidate = 300;
+export const revalidate = 0;
 export default async function Home() {
   const [members,news,partners]=await Promise.all([getPublicMembers(),getPublicNews(2),getPublicPartners()]);
   return <>
