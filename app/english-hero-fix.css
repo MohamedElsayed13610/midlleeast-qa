@@ -1,0 +1,24 @@
+/* Keep the English desktop hero from letting the CTA row collide with the metrics row on shorter viewports. */
+@media (min-width: 921px) {
+  .english-shell .hero {
+    height: auto !important;
+    min-height: max(860px, 100svh) !important;
+    grid-template-rows: auto auto !important;
+    row-gap: 32px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .english-shell .hero-copy {
+    align-self: center !important;
+    padding-bottom: 18px;
+  }
+
+  .english-shell .hero-metrics {
+    margin-top: 0 !important;
+    align-self: end;
+  }
+
+  .english-shell .scroll-cue {
+    display: none !important;
+  }
+}
