@@ -5,7 +5,7 @@
 }
 
 .site-header .brand-copy small::after {
-  content: "L M E   L A W   F I R M";
+  content: "L.M.E LAWFIRM";
   display: block;
   direction: ltr;
   unicode-bidi: isolate;
@@ -18,7 +18,7 @@
 }
 
 .hero-copy::before {
-  content: "L M E   L A W   F I R M";
+  content: "L.M.E LAWFIRM";
   display: block;
   direction: ltr;
   unicode-bidi: isolate;
