@@ -7,6 +7,8 @@ export type CmsNews = {
   id: string; slug: string; title: string; excerpt: string; content: string; category: string;
   author: string; image_url: string; image_alt: string; published_at: string | null;
   status: "draft" | "published"; updated_at: string;
+  title_en?: string; excerpt_en?: string; content_en?: string; category_en?: string;
+  author_en?: string; image_alt_en?: string;
 };
 export type CmsPartner = {
   id: string; slug: string; name_ar: string; name_en: string; country_ar: string; country_en: string;
