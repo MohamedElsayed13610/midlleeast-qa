@@ -3,6 +3,7 @@ import { firmLegalName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
 import FloatingWhatsApp from "@/components/floating-whatsapp";
 import "./globals.css";
 import "./practice.css";
+import "./home-sections.css";
 import "./mobile-fixes.css";
 import "./performance.css";
 import "./english-hero-fix.css";
