@@ -22,8 +22,8 @@ export default function PartnersSection({partners,locale,index="01"}:Props) {
   return <section id="partners" className="partners section-pad">
     <div className="section-index reveal" data-reveal><span>{index}</span><p>{ar ? "شركاؤنا الإقليميون والدوليون" : "Regional & International Partners"}</p></div>
     <div className="partners-heading reveal" data-reveal>
-      <div><span className="kicker">{ar ? "شبكة قانونية تتجاوز الحدود" : "A legal network beyond borders"}</span><h2>{ar ? <>شراكات مهنية، <em>وحضور دولي.</em></> : <>Trusted partnerships. <em>International reach.</em></>}</h2></div>
-      <p>{ar ? "نتعاون مع مكاتب محاماة دولية ونقدّم الدعم والتمثيل القانوني لعملائها في دولة قطر." : "We work with international law firms and support their clients in Qatar through a connected legal network."}</p>
+      <div><span className="kicker">{ar ? "شبكة مهنية تتجاوز الحدود" : "A professional network beyond borders"}</span><h2>{ar ? <>شراكات مهنية، <em>وحضور دولي.</em></> : <>Trusted partnerships. <em>International reach.</em></>}</h2></div>
+      <p>{ar ? "نتعاون مع مكاتب قانونية وجهات مهنية دولية لتوسيع نطاق الدعم والخدمات المقدمة لعملائنا داخل دولة قطر وخارجها." : "We collaborate with international law firms and professional organizations to extend the support and services available to our clients in Qatar and across borders."}</p>
     </div>
 
     {partners.length ? <div className="partners-marquee reveal" data-reveal aria-label={ar?"شبكة شركائنا":"Our partner network"}>
