@@ -8,9 +8,11 @@ if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin
 export const siteUrl = configuredOrigin.origin;
 export const firmName = "الشرق الأوسط ومشاركوه";
 export const firmLegalName = "الشرق الأوسط ومشاركوه للمحاماة والتحكيم";
+export const firmEnglishName = "Middle East & Partners Law Firm";
 export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
+export const firmLogoUrl = absoluteUrl("/assets/brand/logo-white.png");
 
 export function pageMetadata(title: string, description: string, path: string): Metadata {
   return {
@@ -26,10 +28,18 @@ export const firmSchema = {
   "@type": "LegalService",
   "@id": absoluteUrl("/#organization"),
   name: firmLegalName,
-  alternateName: "Middle East & Partners Law Firm",
+  legalName: firmLegalName,
+  alternateName: [firmEnglishName, "Middle East & Partners", "L.M.E LAWFIRM"],
   url: absoluteUrl(),
   description: firmDescription,
-  logo: absoluteUrl("/assets/brand/logo-white.webp"),
+  logo: {
+    "@type": "ImageObject",
+    url: firmLogoUrl,
+    contentUrl: firmLogoUrl,
+    caption: firmLegalName,
+  },
+  image: firmLogoUrl,
+  foundingDate: "2012",
   telephone: "+97440026487",
   email: "info@middleeast-qa.com",
   address: {
