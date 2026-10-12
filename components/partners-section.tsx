@@ -13,7 +13,10 @@ export default function PartnersSection({partners,locale,index="01"}:Props) {
     const country=ar ? partner.country_ar : partner.country_en;
     return <>
       <div className="partner-logo"><img src={partner.logo_url} alt={`${name} logo`} loading="lazy"/></div>
-      <div className="partner-copy" dir={ar?"rtl":"ltr"}><span>{country}</span></div>
+      <div className="partner-copy" dir={ar?"rtl":"ltr"}>
+        <h3>{name}</h3>
+        <span>{country}</span>
+      </div>
     </>;
   };
 
