@@ -1,0 +1,61 @@
+/* Partner presentation: static and fully visible on desktop, marquee on mobile. */
+@media (min-width: 761px) {
+  .partners-marquee {
+    width: 100%;
+    margin-inline: 0;
+    padding: 8px 0 4px;
+    overflow: visible;
+    direction: inherit;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .partners-marquee-track {
+    width: 100%;
+    display: block;
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .partners-marquee-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    align-items: stretch;
+    gap: clamp(18px, 2.2vw, 34px);
+  }
+
+  .partners-marquee-group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .partner-card-marquee {
+    width: auto;
+    min-height: 210px;
+    padding: 12px 12px 18px;
+    gap: 8px;
+  }
+
+  .partner-logo {
+    height: 132px;
+    padding: 0 10px;
+  }
+
+  .partner-logo img {
+    max-width: 245px;
+  }
+}
+
+/* Mobile intentionally keeps the existing continuous marquee animation. */
+@media (max-width: 760px) {
+  .partners-marquee-track {
+    animation: partners-marquee 24s linear infinite;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .partners-marquee-track {
+    animation: none;
+  }
+}
