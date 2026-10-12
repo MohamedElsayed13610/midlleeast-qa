@@ -1,0 +1,27 @@
+/* Prominent firm identity line above the hero eyebrow in both languages. */
+.brand-copy small {
+  display: none !important;
+}
+
+.hero-copy::before {
+  content: "L M E LAWFIRM";
+  display: block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  margin-bottom: 14px;
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: .24em;
+  color: #d7bd86;
+  text-transform: uppercase;
+  opacity: .98;
+}
+
+@media (max-width: 760px) {
+  .hero-copy::before {
+    margin-bottom: 10px;
+    font-size: clamp(1rem, 5vw, 1.3rem);
+    letter-spacing: .18em;
+  }
+}
