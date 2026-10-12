@@ -22,3 +22,14 @@
     display: none !important;
   }
 }
+
+/* Remove the QATAR · LAW wording behind the founder while keeping the establishment year. */
+.portrait-portal > span {
+  font-size: 0 !important;
+}
+
+.portrait-portal > span::after {
+  content: "2012";
+  font-size: .72rem;
+  letter-spacing: .2em;
+}
