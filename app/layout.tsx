@@ -20,11 +20,6 @@ export const metadata: Metadata = {
   applicationName: firmLegalName,
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
-  icons: {
-    icon: [{ url: "/assets/brand/logo-white.png", type: "image/png" }],
-    shortcut: "/assets/brand/logo-white.png",
-    apple: "/assets/brand/logo-white.png",
-  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
