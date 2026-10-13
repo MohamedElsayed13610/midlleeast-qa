@@ -15,18 +15,23 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#03261e",
-          border: "18px solid #c2a066",
-          borderRadius: 88,
-          padding: 54,
         }}
       >
-        <img
-          src="https://lmelawfirm.com/assets/brand/logo-white.png"
-          alt=""
-          width="360"
-          height="360"
-          style={{ objectFit: "contain" }}
-        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#dcc28e",
+            fontFamily: "Arial, sans-serif",
+            fontSize: 176,
+            fontWeight: 800,
+            letterSpacing: -14,
+            lineHeight: 1,
+          }}
+        >
+          LME
+        </div>
       </div>
     ),
     size,
