@@ -12,7 +12,7 @@ export const firmEnglishName = "Middle East & Partners Law Firm";
 export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
-export const firmLogoUrl = absoluteUrl("/icon");
+export const firmLogoUrl = absoluteUrl("/assets/brand/logo-white.png");
 
 export function pageMetadata(title: string, description: string, path: string): Metadata {
   return {
@@ -36,8 +36,8 @@ export const firmSchema = {
     "@type": "ImageObject",
     url: firmLogoUrl,
     contentUrl: firmLogoUrl,
-    width: 512,
-    height: 512,
+    width: 2363,
+    height: 2363,
     caption: firmLegalName,
   },
   image: firmLogoUrl,
