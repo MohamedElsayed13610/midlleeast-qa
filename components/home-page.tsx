@@ -72,7 +72,16 @@ export default function Home({members,news,partners}: {members:PublicTeamMember[
         </div>
         <div className="hero-portrait" aria-label="محمد بن عوجان الهاجري">
           <div className="portrait-portal"><span>QATAR · LAW · 2012</span></div>
-          <img src="/assets/team/mohamed-bin-aujan-cutout.webp" width="1102" height="1427" alt="محمد بن عوجان الهاجري" />
+          <img
+            src="/assets/team/mohamed-bin-aujan-cutout.webp"
+            srcSet="/assets/team/mohamed-bin-aujan-cutout.480.webp 480w, /assets/team/mohamed-bin-aujan-cutout.webp 1102w"
+            sizes="(max-width: 760px) 82vw, 46vw"
+            width="1102"
+            height="1427"
+            fetchPriority="high"
+            decoding="async"
+            alt="محمد بن عوجان الهاجري"
+          />
           <div className="portrait-name"><small>محامٍ أمام محكمة التمييز</small><strong>محمد بن عوجان الهاجري</strong></div>
         </div>
         <div className="hero-metrics"><div><strong>04</strong><span>مكاتب إقليمية</span></div><div><strong>{members.length}</strong><span>عضوًا في الفريق</span></div><div><strong>2012</strong><span>منذ عام</span></div></div>
