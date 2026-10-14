@@ -82,7 +82,7 @@ export default function Home({members,news,partners}: {members:PublicTeamMember[
             decoding="async"
             alt="محمد بن عوجان الهاجري"
           />
-          <div className="portrait-name"><small>شريك مؤسس</small><strong>محمد بن عوجان الهاجري</strong></div>
+          <div className="portrait-name"><small>شريك مؤسس والمحامي بالتمييز</small><strong>محمد بن عوجان الهاجري</strong></div>
         </div>
         <div className="hero-metrics"><div><strong>04</strong><span>مكاتب إقليمية</span></div><div><strong>{members.length}</strong><span>عضوًا في الفريق</span></div><div><strong>2012</strong><span>منذ عام</span></div></div>
         <a href="#partners" className="scroll-cue" aria-label="انتقل إلى قسم الشركاء"><ChevronDown size={20} /></a>
