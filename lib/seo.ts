@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 
-const configuredOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://midlleeast-qa.vercel.app");
+const configuredOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lmelawfirm.com");
 if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin.username || configuredOrigin.password || configuredOrigin.pathname !== '/' || configuredOrigin.search || configuredOrigin.hash) {
   throw new Error("NEXT_PUBLIC_SITE_URL must be an absolute website origin without a path.");
 }
 
 export const siteUrl = configuredOrigin.origin;
-export const firmName = "الشرق الأوسط ومشاركوه";
+export const brandName = "L.M.E LAWFIRM";
+export const firmName = brandName;
 export const firmLegalName = "الشرق الأوسط ومشاركوه للمحاماة والتحكيم";
-export const firmEnglishName = "Middle East & Partners Law Firm";
+export const firmArabicName = "الشرق الأوسط ومشاركوه";
+export const firmEnglishName = brandName;
+export const firmLegacyEnglishName = "Middle East & Partners Law Firm";
 export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
@@ -19,17 +22,17 @@ export function pageMetadata(title: string, description: string, path: string): 
     title,
     description,
     alternates: { canonical: absoluteUrl(path) },
-    openGraph: { type: "website", locale: "ar_QA", siteName: firmLegalName, title: `${title} | ${firmLegalName}`, description, url: absoluteUrl(path) },
-    twitter: { card: "summary", title: `${title} | ${firmLegalName}`, description },
+    openGraph: { type: "website", locale: "ar_QA", siteName: brandName, title: `${title} | ${brandName}`, description, url: absoluteUrl(path) },
+    twitter: { card: "summary", title: `${title} | ${brandName}`, description },
   };
 }
 
 export const firmSchema = {
   "@type": "LegalService",
   "@id": absoluteUrl("/#organization"),
-  name: firmLegalName,
+  name: brandName,
   legalName: firmLegalName,
-  alternateName: [firmEnglishName, "Middle East & Partners", "L.M.E LAWFIRM"],
+  alternateName: [firmArabicName, firmLegacyEnglishName, "Middle East & Partners", "LME Law Firm"],
   url: absoluteUrl(),
   description: firmDescription,
   logo: {
@@ -38,7 +41,7 @@ export const firmSchema = {
     contentUrl: firmLogoUrl,
     width: 2363,
     height: 2363,
-    caption: firmLegalName,
+    caption: brandName,
   },
   image: firmLogoUrl,
   foundingDate: "2012",
