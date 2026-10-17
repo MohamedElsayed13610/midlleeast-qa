@@ -1,12 +1,12 @@
 import { getPublicMembers, getPublicNews, getPublicPartners } from "@/lib/cms-server";
 import HomePage from "@/components/home-page";
 import StructuredData from "@/components/structured-data";
-import { absoluteUrl, firmDescription, firmEnglishName, firmLegalName, firmSchema, pageMetadata } from "@/lib/seo";
+import { absoluteUrl, brandName, firmDescription, firmLegacyEnglishName, firmLegalName, firmSchema, pageMetadata } from "@/lib/seo";
 import { legalServices } from "@/lib/services";
 
 export const metadata = {
   ...pageMetadata("مكتب محاماة واستشارات قانونية في قطر", firmDescription, "/"),
-  title: { absolute: `${firmLegalName} | مكتب محاماة في قطر` },
+  title: { absolute: `${brandName} | مكتب محاماة واستشارات قانونية في قطر` },
   alternates: { canonical: absoluteUrl("/"), languages: { ar: absoluteUrl("/"), en: absoluteUrl("/en") } },
 };
 
@@ -17,9 +17,9 @@ export default async function Home() {
     <link rel="preload" as="image" href="/assets/team/mohamed-bin-aujan-cutout.webp" type="image/webp" />
     <StructuredData data={{ "@context": "https://schema.org", "@graph": [
       { ...firmSchema, hasOfferCatalog: { "@type": "OfferCatalog", name: "خدمات المكتب القانونية", itemListElement: legalServices.map(service => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: service.title, url: absoluteUrl(`/services/${service.slug}`) } })) } },
-      { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: firmLegalName, alternateName: [firmEnglishName, "Middle East & Partners", "L.M.E LAWFIRM"], inLanguage: ["ar", "en"], publisher: { "@id": firmSchema["@id"] } },
-      { "@type": "WebPage", "@id": absoluteUrl("/#webpage"), url: absoluteUrl(), name: `${firmLegalName} | مكتب محاماة في قطر`, description: firmDescription, inLanguage: "ar", isPartOf: { "@id": absoluteUrl("/#website") }, about: { "@id": firmSchema["@id"] } },
-      { "@type": "SiteNavigationElement", name: ["من نحن", "فريقنا", "الأخبار", "الاستشارات القانونية"], url: [absoluteUrl("/about"), absoluteUrl("/team"), absoluteUrl("/news"), absoluteUrl("/consultation")] },
+      { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: brandName, alternateName: [firmLegalName, firmLegacyEnglishName, "Middle East & Partners"], inLanguage: ["ar", "en"], publisher: { "@id": firmSchema["@id"] } },
+      { "@type": "WebPage", "@id": absoluteUrl("/#webpage"), url: absoluteUrl(), name: `${brandName} | مكتب محاماة واستشارات قانونية في قطر`, description: firmDescription, inLanguage: "ar", isPartOf: { "@id": absoluteUrl("/#website") }, about: { "@id": firmSchema["@id"] } },
+      { "@type": "SiteNavigationElement", name: ["من نحن", "الخدمات القانونية", "فريقنا", "الأخبار", "الاستشارات القانونية"], url: [absoluteUrl("/about"), absoluteUrl("/services"), absoluteUrl("/team"), absoluteUrl("/news"), absoluteUrl("/consultation")] },
     ] }} />
     <HomePage members={members} news={news} partners={partners}/>
   </>;
