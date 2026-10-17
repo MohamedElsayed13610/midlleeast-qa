@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { firmLegalName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
+import { brandName, firmDescription, isPreview, siteUrl } from "@/lib/seo";
 import FloatingWhatsApp from "@/components/floating-whatsapp";
 import "./globals.css";
 import "./practice.css";
@@ -15,14 +15,16 @@ import "./remove-legacy-monogram.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: `مكتب محاماة في قطر | ${firmLegalName}`, template: `%s | ${firmLegalName}` },
+  title: { default: `${brandName} | مكتب محاماة في قطر`, template: `%s | ${brandName}` },
   description: firmDescription,
-  applicationName: firmLegalName,
+  applicationName: brandName,
+  creator: brandName,
+  publisher: brandName,
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
-    icon: [{ url: "/assets/brand/logo-white.png", type: "image/png", sizes: "any" }],
-    shortcut: "/assets/brand/logo-white.png",
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: "/favicon.svg",
     apple: "/assets/brand/logo-white.png",
   },
 };
