@@ -7,9 +7,9 @@ if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin
 
 export const siteUrl = configuredOrigin.origin;
 export const brandName = "L.M.E LAWFIRM";
-export const firmName = brandName;
+export const firmName = "الشرق الأوسط ومشاركوه";
 export const firmLegalName = "الشرق الأوسط ومشاركوه للمحاماة والتحكيم";
-export const firmArabicName = "الشرق الأوسط ومشاركوه";
+export const firmArabicName = firmName;
 export const firmEnglishName = brandName;
 export const firmLegacyEnglishName = "Middle East & Partners Law Firm";
 export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
