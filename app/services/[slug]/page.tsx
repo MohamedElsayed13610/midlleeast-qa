@@ -24,11 +24,11 @@ export default async function ServicePage({ params }: Props) {
   return <main className="team-page service-page">
     <StructuredData data={{ "@context": "https://schema.org", "@graph": [
       { "@type": "Service", "@id": absoluteUrl(`${path}#service`), name: service.heading, description: service.description, serviceType: service.title, url: absoluteUrl(path), provider: { "@id": firmSchema["@id"] }, areaServed: { "@type": "Country", name: "Qatar" } },
-      breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: service.title, path }]),
+      breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: "الخدمات القانونية", path: "/services" }, { name: service.title, path }]),
     ] }} />
-    <header className="inner-header"><Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والتحكيم</small></span></Link><div className="header-actions"><Link className="language-switch" href={`/en/services/${slug}`} lang="en">EN</Link><Link href="/#contact">تواصل مع المكتب</Link></div></header>
+    <header className="inner-header"><Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والتحكيم</small></span></Link><div className="header-actions"><Link className="language-switch" href={`/en/services/${slug}`} lang="en">EN</Link><Link href="/consultation">تواصل مع المكتب</Link></div></header>
     <section className="team-page-heading section-pad">
-      <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span aria-hidden="true">/</span><span aria-current="page">{service.title}</span></nav>
+      <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span aria-hidden="true">/</span><Link href="/services">الخدمات القانونية</Link><span aria-hidden="true">/</span><span aria-current="page">{service.title}</span></nav>
       <span className="kicker">خدماتنا القانونية</span><h1>{service.heading}</h1><p>{service.description}</p>
     </section>
     <article className="service-body section-pad">
@@ -38,6 +38,6 @@ export default async function ServicePage({ params }: Props) {
       <section className="service-contact"><h2>ناقش ملفك مع فريق المكتب</h2><p>مكتب قطر: منطقة المارينا، برج التوأم أ، الطابق الثامن، لوسيل.</p><div className="service-actions"><Link className="button button-gold" href="/consultation">احجز استشارة قانونية</Link><a className="button button-outline" href="https://wa.me/97477733348" target="_blank" rel="noreferrer">تواصل عبر واتساب</a><a href="tel:+97440026487" dir="ltr">+974 4002 6487</a><Link href="/team">تعرّف على فريقنا</Link></div></section>
       <aside className="related-services"><h2>خدمات قانونية أخرى</h2><div>{related.map(item => <Link key={item.slug} href={`/services/${item.slug}`}>{item.title}</Link>)}</div></aside>
     </article>
-    <footer className="inner-footer"><Link href="/#services">كل مجالات الخبرة</Link><p>© 2026 {firmName}. جميع الحقوق محفوظة.</p></footer>
+    <footer className="inner-footer"><Link href="/services">كل الخدمات القانونية</Link><p>© 2026 {firmName}. جميع الحقوق محفوظة.</p></footer>
   </main>;
 }
