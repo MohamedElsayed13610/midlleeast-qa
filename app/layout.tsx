@@ -13,6 +13,8 @@ import "./hero-brandline.css";
 import "./whatsapp.css";
 import "./remove-legacy-monogram.css";
 
+const legacyFavicon = "https://middleeast-qa.com/favicon.ico";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: `${brandName} | مكتب محاماة في قطر`, template: `%s | ${brandName}` },
@@ -23,8 +25,8 @@ export const metadata: Metadata = {
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
-    icon: [{ url: "/favicon-office.png?v=1", type: "image/png", sizes: "96x96" }],
-    shortcut: "/favicon-office.png?v=1",
+    icon: [{ url: legacyFavicon, type: "image/x-icon", sizes: "any" }],
+    shortcut: legacyFavicon,
     apple: "/assets/brand/logo-white.png",
   },
 };
@@ -32,7 +34,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
-      <head><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /></head>
+      <head>
+        <link rel="icon" href={legacyFavicon} sizes="any" />
+        <link rel="shortcut icon" href={legacyFavicon} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>{children}<FloatingWhatsApp /><noscript><style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style></noscript></body>
     </html>
   );
