@@ -12,7 +12,7 @@ export const firmLegalName = "مكتب الشرق الأوسط وشركاه لل
 export const firmArabicName = firmName;
 export const firmEnglishName = "Midlleeast & Partners Law Firm";
 export const firmLegacyEnglishName = "Middle East & Partners Law Firm";
-export const firmDescription = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
+export const firmDescription = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر، ويقدم خدمات الشركات والعقود والتقاضي والتحكيم والعمل والهجرة والعقارات والطاقة والتكنولوجيا من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
 export const firmLogoUrl = absoluteUrl("/assets/brand/logo-white.png");
@@ -28,7 +28,7 @@ export function pageMetadata(title: string, description: string, path: string): 
 }
 
 export const firmSchema = {
-  "@type": "LegalService",
+  "@type": ["LegalService", "Organization"],
   "@id": absoluteUrl("/#organization"),
   name: firmArabicName,
   legalName: firmLegalName,
@@ -37,6 +37,7 @@ export const firmSchema = {
     firmLegacyEnglishName,
     "Midlleeast Law Firm",
     "Midlleeast & Partners",
+    "Middle East Office Partners Law Firm",
     "Middle East & Partners",
   ],
   url: absoluteUrl(),
@@ -57,15 +58,26 @@ export const firmSchema = {
     "@type": "PostalAddress",
     streetAddress: "منطقة المارينا، برج التوأم أ، الطابق الثامن",
     addressLocality: "لوسيل",
+    addressRegion: "الدوحة",
     addressCountry: "QA",
   },
   areaServed: ["QA", "AE", "LB", "EG"].map(code => ({ "@type": "Country", name: code })),
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+97477733348",
-    contactType: "customer service",
-    availableLanguage: ["ar", "en"],
-  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+97477733348",
+      contactType: "customer service",
+      availableLanguage: ["ar", "en"],
+      areaServed: "QA",
+    },
+    {
+      "@type": "ContactPoint",
+      telephone: "+97440026487",
+      contactType: "legal services",
+      availableLanguage: ["ar", "en"],
+      areaServed: "QA",
+    },
+  ],
 };
 
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
