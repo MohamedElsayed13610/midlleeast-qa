@@ -20,7 +20,7 @@ export default async function Home() {
       { ...firmSchema, hasOfferCatalog: { "@type": "OfferCatalog", name: "خدمات المكتب القانونية", itemListElement: legalServices.map(service => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: service.title, url: absoluteUrl(`/services/${service.slug}`) } })) } },
       { "@type": "WebSite", "@id": absoluteUrl("/#website"), url: absoluteUrl(), name: brandName, alternateName: [firmLegalName, firmEnglishName, "Midlleeast Law Firm", "Midlleeast & Partners", firmLegacyEnglishName], inLanguage: ["ar", "en"], publisher: { "@id": firmSchema["@id"] } },
       { "@type": "WebPage", "@id": absoluteUrl("/#webpage"), url: absoluteUrl(), name: `${brandName} | محاماة واستشارات قانونية في قطر`, description: firmDescription, inLanguage: "ar", isPartOf: { "@id": absoluteUrl("/#website") }, about: { "@id": firmSchema["@id"] } },
-      { "@type": "SiteNavigationElement", name: ["من نحن", "الخدمات القانونية", "فريقنا", "الأخبار", "الاستشارات القانونية"], url: [absoluteUrl("/about"), absoluteUrl("/services"), absoluteUrl("/team"), absoluteUrl("/news"), absoluteUrl("/consultation")] },
+      { "@type": "SiteNavigationElement", name: ["من نحن", "الخدمات القانونية", "فريقنا", "الأخبار", "تواصل معنا", "الاستشارات القانونية"], url: [absoluteUrl("/about"), absoluteUrl("/services"), absoluteUrl("/team"), absoluteUrl("/news"), absoluteUrl("/contact"), absoluteUrl("/consultation")] },
     ] }} />
     <HomePage members={members} news={news} partners={partners}/>
   </>;
