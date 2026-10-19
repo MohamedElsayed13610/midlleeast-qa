@@ -41,9 +41,9 @@ export default function Home({members,news,partners}: {members:PublicTeamMember[
     <main dir="rtl" className="site-shell">
       <div className="page-progress" aria-hidden="true" />
       <header className="site-header">
-        <a href="#top" className="brand" aria-label="الشرق الأوسط ومشاركوه للمحاماة والتحكيم — الرئيسية">
-          <img src="/assets/brand/logo-white.webp" width="64" height="64" alt="شعار الشرق الأوسط ومشاركوه للمحاماة والتحكيم" />
-          <span className="brand-copy"><strong>الشرق الأوسط ومشاركوه</strong><small>للمحاماة والتحكيم</small></span>
+        <a href="#top" className="brand" aria-label="مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية — الرئيسية">
+          <img src="/assets/brand/logo-white.webp" width="64" height="64" alt="شعار مكتب الشرق الأوسط وشركاه" />
+          <span className="brand-copy"><strong>مكتب الشرق الأوسط وشركاه</strong><small>للمحاماة والاستشارات القانونية</small></span>
         </a>
         <nav className="desktop-nav" aria-label="التنقل الرئيسي"><a href="#partners">الشركاء</a><a href="#knowledge">الأخبار</a><a href="#team">الفريق</a><a href="#offices">المكاتب</a><a href="#contact">تواصل معنا</a></nav>
         <div className="header-actions">
@@ -67,7 +67,7 @@ export default function Home({members,news,partners}: {members:PublicTeamMember[
         <div className="hero-copy">
           <div className="eyebrow hero-eyebrow"><span /> مكتب محاماة إقليمي منذ 2012</div>
           <h1>القانون<br /><em>برؤية أعمال.</em></h1>
-          <p>الشرق الأوسط ومشاركوه للمحاماة والتحكيم، مكتب محاماة واستشارات قانونية في قطر. نمثل مصالح عملائنا من لوسيل وعبر المنطقة باستراتيجيات قانونية واضحة، دقيقة، وقابلة للتنفيذ.</p>
+          <p>مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر. نمثل مصالح عملائنا من لوسيل وعبر المنطقة باستراتيجيات قانونية واضحة، دقيقة، وقابلة للتنفيذ.</p>
           <div className="hero-actions"><a className="button button-gold" href="#contact">ابدأ المحادثة <ArrowLeft size={18} /></a><a className="text-link" href="#team">تعرّف على فريقنا <span>↓</span></a></div>
         </div>
         <div className="hero-portrait" aria-label="محمد بن عوجان الهاجري">
@@ -104,7 +104,7 @@ export default function Home({members,news,partners}: {members:PublicTeamMember[
 
       <section id="contact" className="contact section-pad"><div className="contact-lines" aria-hidden="true" /><div className="contact-head reveal" data-reveal><div className="section-index light"><span>05</span><p>تواصل معنا</p></div><h2>ابدأ من<br /><em>الخطوة الصحيحة.</em></h2></div><div className="contact-panel reveal delay-1" data-reveal><p>شاركنا طبيعة المسألة القانونية، وسيتواصل معك الفريق لتحديد المسار المناسب.</p><div className="contact-actions"><Link className="button button-gold" href="/consultation">احجز استشارة قانونية <ArrowUpLeft size={18} /></Link><a className="button button-outline" href="https://wa.me/97477733348" target="_blank" rel="noreferrer">تواصل عبر واتساب <ArrowUpLeft size={18} /></a></div><div className="contact-details"><a href="tel:+97455600352">+974 5560 0352</a><a href="tel:+97440026487">+974 4002 6487</a><a href="tel:+97477733348">+974 7773 3348</a><a href="mailto:info@middleeast-qa.com">info@middleeast-qa.com</a></div></div></section>
 
-      <footer><a href="#top" className="footer-brand"><img src="/assets/brand/logo-white.webp" width="45" height="45" loading="lazy" alt="" /><span>الشرق الأوسط ومشاركوه<small>للمحاماة والتحكيم</small></span></a><p>© 2026 جميع الحقوق محفوظة. <Link href="/team">فريق المحامين والمستشارين</Link></p><a href="#top" className="back-top">العودة للأعلى <ArrowUpLeft size={16} /></a></footer>
+      <footer><a href="#top" className="footer-brand"><img src="/assets/brand/logo-white.webp" width="45" height="45" loading="lazy" alt="" /><span>مكتب الشرق الأوسط وشركاه<small>للمحاماة والاستشارات القانونية</small></span></a><p>© 2026 جميع الحقوق محفوظة. <Link href="/team">فريق المحامين والمستشارين</Link></p><a href="#top" className="back-top">العودة للأعلى <ArrowUpLeft size={16} /></a></footer>
     </main>
   );
 }
