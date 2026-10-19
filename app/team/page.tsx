@@ -5,7 +5,7 @@ import StructuredData from "@/components/structured-data";
 import { absoluteUrl, breadcrumbSchema, firmLegalName, firmName, firmSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = {
-  ...pageMetadata("فريق المحامين والمستشارين في قطر", "تعرّف على فريق مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر وخبرات المحامين والمستشارين ضمن شبكة المكتب الإقليمية.", "/team"),
+  ...pageMetadata("فريق المحامين والمستشارين في قطر", "تعرّف على فريق مكتب الشرق الأوسط ومشاركوه للمحاماة والاستشارات القانونية في قطر وخبرات المحامين والمستشارين ضمن شبكة المكتب الإقليمية.", "/team"),
   alternates: { canonical: absoluteUrl("/team"), languages: { ar: absoluteUrl("/team"), en: absoluteUrl("/en/team") } },
 };
 
