@@ -5,7 +5,7 @@ import StructuredData from "@/components/structured-data";
 
 export const dynamic="force-dynamic";
 export const metadata={
-  ...pageMetadata("أخبار المكتب والمقالات القانونية","أخبار مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر، ومقالات ورؤى قانونية وتطورات قضائية مختارة.","/news"),
+  ...pageMetadata("أخبار المكتب والمقالات القانونية","أخبار مكتب الشرق الأوسط ومشاركوه للمحاماة والاستشارات القانونية في قطر، ومقالات ورؤى قانونية وتطورات قضائية مختارة.","/news"),
   alternates:{canonical:absoluteUrl("/news"),languages:{ar:absoluteUrl("/news"),en:absoluteUrl("/en/news")}},
 };
 
