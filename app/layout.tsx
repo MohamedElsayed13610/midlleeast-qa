@@ -13,7 +13,7 @@ import "./hero-brandline.css";
 import "./whatsapp.css";
 import "./remove-legacy-monogram.css";
 
-const legacyFavicon = "https://middleeast-qa.com/favicon.ico";
+const officeFavicon = "/favicon.png?v=office-20261020";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
-    icon: [{ url: legacyFavicon, type: "image/x-icon", sizes: "any" }],
-    shortcut: legacyFavicon,
+    icon: [{ url: officeFavicon, type: "image/png", sizes: "96x96" }],
+    shortcut: officeFavicon,
     apple: "/assets/brand/logo-white.png",
   },
 };
@@ -35,8 +35,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ar" dir="rtl">
       <head>
-        <link rel="icon" href={legacyFavicon} sizes="any" />
-        <link rel="shortcut icon" href={legacyFavicon} />
+        <link rel="icon" href={officeFavicon} type="image/png" sizes="96x96" />
+        <link rel="shortcut icon" href={officeFavicon} type="image/png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
