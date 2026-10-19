@@ -6,13 +6,13 @@ if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin
 }
 
 export const siteUrl = configuredOrigin.origin;
-export const brandName = "L.M.E LAWFIRM";
-export const firmName = "الشرق الأوسط ومشاركوه";
-export const firmLegalName = "الشرق الأوسط ومشاركوه للمحاماة والتحكيم";
+export const brandName = "مكتب الشرق الأوسط وشركاه";
+export const firmName = brandName;
+export const firmLegalName = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية";
 export const firmArabicName = firmName;
-export const firmEnglishName = brandName;
+export const firmEnglishName = "Midlleeast & Partners Law Firm";
 export const firmLegacyEnglishName = "Middle East & Partners Law Firm";
-export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والتحكيم والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
+export const firmDescription = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر. خدمات الشركات والعقود، التقاضي والتحكيم، العمل والهجرة، الطاقة والتكنولوجيا والضرائب من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
 export const firmLogoUrl = absoluteUrl("/assets/brand/logo-white.png");
@@ -30,9 +30,15 @@ export function pageMetadata(title: string, description: string, path: string): 
 export const firmSchema = {
   "@type": "LegalService",
   "@id": absoluteUrl("/#organization"),
-  name: brandName,
+  name: firmArabicName,
   legalName: firmLegalName,
-  alternateName: [firmArabicName, firmLegacyEnglishName, "Middle East & Partners", "LME Law Firm"],
+  alternateName: [
+    firmEnglishName,
+    firmLegacyEnglishName,
+    "Midlleeast Law Firm",
+    "Midlleeast & Partners",
+    "Middle East & Partners",
+  ],
   url: absoluteUrl(),
   description: firmDescription,
   logo: {
@@ -41,7 +47,7 @@ export const firmSchema = {
     contentUrl: firmLogoUrl,
     width: 2363,
     height: 2363,
-    caption: brandName,
+    caption: firmArabicName,
   },
   image: firmLogoUrl,
   foundingDate: "2012",
