@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png", sizes: "96x96" }],
-    shortcut: "/favicon.png",
+    icon: [{ url: "/favicon-lme-v2.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: "/favicon-lme-v2.svg",
     apple: "/assets/brand/logo-white.png",
   },
 };
