@@ -2,7 +2,7 @@ import Link from "next/link";
 import StructuredData from "@/components/structured-data";
 import { absoluteUrl, breadcrumbSchema, firmEnglishName, firmLegalName, firmName, firmSchema, pageMetadata } from "@/lib/seo";
 
-const description = "تواصل مع مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في لوسيل، قطر. احجز استشارة أو تواصل هاتفيًا أو عبر واتساب.";
+const description = "تواصل مع مكتب الشرق الأوسط ومشاركوه للمحاماة والاستشارات القانونية في لوسيل، قطر. احجز استشارة أو تواصل هاتفيًا أو عبر واتساب.";
 
 export const metadata = {
   ...pageMetadata("تواصل معنا", description, "/contact"),
@@ -24,7 +24,7 @@ export default function ContactPage() {
 
     <section className="team-page-heading section-pad">
       <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span>/</span><span aria-current="page">تواصل معنا</span></nav>
-      <span className="kicker">مكتب الشرق الأوسط وشركاه</span>
+      <span className="kicker">مكتب الشرق الأوسط ومشاركوه</span>
       <h1>تواصل معنا</h1>
       <p>تواصل مع فريق المكتب في قطر لطلب استشارة قانونية أو للاستفسار عن الخدمات.</p>
     </section>
