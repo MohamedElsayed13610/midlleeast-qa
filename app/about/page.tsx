@@ -15,12 +15,12 @@ export default function AboutPage() {
       { "@type": "AboutPage", "@id": absoluteUrl("/about#page"), url: absoluteUrl("/about"), name: `من نحن | ${firmLegalName}`, description: firmDescription, inLanguage: "ar", about: { "@id": firmSchema["@id"] } },
     ] }} />
     <header className="inner-header">
-      <Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmLegalName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والتحكيم</small></span></Link>
+      <Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${firmLegalName}`} /><span className="brand-copy"><strong>{firmName}</strong><small>للمحاماة والاستشارات القانونية</small></span></Link>
       <Link href="/team">فريقنا</Link>
     </header>
     <section className="team-page-heading section-pad">
       <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span>/</span><span aria-current="page">من نحن</span></nav>
-      <span className="kicker">الشرق الأوسط ومشاركوه</span>
+      <span className="kicker">مكتب الشرق الأوسط وشركاه</span>
       <h1>من نحن</h1>
       <p>مكتب محاماة وتحكيم واستشارات قانونية في قطر بخبرة إقليمية ونهج عملي يربط القانون باحتياجات الأعمال.</p>
     </section>
