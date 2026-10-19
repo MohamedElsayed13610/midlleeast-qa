@@ -3,7 +3,7 @@ import StructuredData from "@/components/structured-data";
 import { absoluteUrl, brandName, breadcrumbSchema, firmSchema, pageMetadata } from "@/lib/seo";
 import { legalServices } from "@/lib/services";
 
-const description = "استعرض الخدمات القانونية التي يقدمها L.M.E LAWFIRM في قطر، بما في ذلك الشركات والعقود، المنازعات والتحكيم، العمل والهجرة، العقارات، التكنولوجيا والطاقة.";
+const description = "استعرض الخدمات القانونية التي يقدمها مكتب الشرق الأوسط وشركاه في قطر، بما في ذلك الشركات والعقود، المنازعات والتحكيم، العمل والهجرة، العقارات، التكنولوجيا والطاقة.";
 
 export const metadata = {
   ...pageMetadata("الخدمات القانونية في قطر", description, "/services"),
@@ -19,8 +19,8 @@ export default function ServicesPage() {
       { "@type": "CollectionPage", "@id": absoluteUrl("/services#page"), url: absoluteUrl("/services"), name: `${brandName} | الخدمات القانونية في قطر`, description, inLanguage: "ar", about: { "@id": firmSchema["@id"] }, mainEntity: { "@type": "ItemList", itemListElement: legalServices.map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: absoluteUrl(`/services/${service.slug}`) })) } },
     ] }} />
     <header className="inner-header">
-      <Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${brandName}`} /><span className="brand-copy"><strong>{brandName}</strong><small>للمحاماة والتحكيم</small></span></Link>
-      <div style={{display:"flex",gap:"16px",alignItems:"center"}}><Link href="/team">فريقنا</Link><Link href="/en/services" lang="en">EN</Link></div>
+      <Link className="brand" href="/"><img src="/assets/brand/logo-white.webp" width="64" height="64" alt={`شعار ${brandName}`} /><span className="brand-copy"><strong>{brandName}</strong><small>للمحاماة والاستشارات القانونية</small></span></Link>
+      <div style={{display:"flex",gap:"16px",alignItems:"center"}}><Link href="/team">فريقنا</Link><Link href="/contact">تواصل معنا</Link><Link href="/en/services" lang="en">EN</Link></div>
     </header>
     <section className="team-page-heading section-pad">
       <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span>/</span><span aria-current="page">الخدمات القانونية</span></nav>
@@ -38,6 +38,6 @@ export default function ServicesPage() {
         </article>)}
       </div>
     </section>
-    <footer className="inner-footer"><Link href="/consultation">احجز استشارة قانونية</Link><p>© 2026 {brandName}. جميع الحقوق محفوظة.</p></footer>
+    <footer className="inner-footer"><Link href="/contact">تواصل معنا</Link><Link href="/consultation">احجز استشارة قانونية</Link><p>© 2026 {brandName}. جميع الحقوق محفوظة.</p></footer>
   </main>;
 }
