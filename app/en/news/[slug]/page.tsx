@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPublicNewsItem } from "@/lib/cms-server";
 import StructuredData from "@/components/structured-data";
-import { absoluteUrl, breadcrumbSchema, firmSchema } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, firmEnglishName, firmSchema } from "@/lib/seo";
 import { cleanNewsText, newsParagraphs, textDirection } from "@/lib/news-text";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const imageAlt = cleanNewsText(item.image_alt_en?.trim() || item.image_alt || title);
 
   return {
-    title: `${title} | Middle East & Partners`,
+    title: { absolute: `${title} | ${firmEnglishName}` },
     description,
     alternates: {
       canonical: absoluteUrl(path),
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: "article",
       locale: "en_QA",
-      siteName: "Middle East & Partners",
+      siteName: firmEnglishName,
       title,
       description,
       url: absoluteUrl(path),
@@ -144,6 +144,7 @@ export default async function EnglishNewsArticle({ params }: Props) {
           <Link href={hasEnglishContent ? "/en/news" : "/news"} className="news-read-link">
             {hasEnglishContent ? "← Back to all news" : "العودة إلى كل الأخبار ←"}
           </Link>
+          <Link href="/en/contact" className="news-read-link">Contact Us</Link>
           {hasEnglishContent && (
             <Link href={`/news/${item.slug}`} className="news-read-link">
               العربية
