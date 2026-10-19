@@ -6,13 +6,13 @@ if (!['https:', 'http:'].includes(configuredOrigin.protocol) || configuredOrigin
 }
 
 export const siteUrl = configuredOrigin.origin;
-export const brandName = "مكتب الشرق الأوسط وشركاه";
+export const brandName = "مكتب الشرق الأوسط ومشاركوه";
 export const firmName = brandName;
-export const firmLegalName = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية";
+export const firmLegalName = "مكتب الشرق الأوسط ومشاركوه للمحاماة والاستشارات القانونية";
 export const firmArabicName = firmName;
 export const firmEnglishName = "Midlleeast & Partners Law Firm";
 export const firmLegacyEnglishName = "Middle East & Partners Law Firm";
-export const firmDescription = "مكتب الشرق الأوسط وشركاه للمحاماة والاستشارات القانونية في قطر، ويقدم خدمات الشركات والعقود والتقاضي والتحكيم والعمل والهجرة والعقارات والطاقة والتكنولوجيا من لوسيل.";
+export const firmDescription = "مكتب الشرق الأوسط ومشاركوه للمحاماة والاستشارات القانونية في قطر، ويقدم خدمات الشركات والعقود والتقاضي والتحكيم والعمل والهجرة والعقارات والطاقة والتكنولوجيا من لوسيل.";
 export const isPreview = process.env.VERCEL_ENV === "preview" || process.env.SEO_NOINDEX === "true";
 export const absoluteUrl = (path = "/") => new URL(path, `${siteUrl}/`).toString();
 export const firmLogoUrl = absoluteUrl("/assets/brand/logo-white.png");
