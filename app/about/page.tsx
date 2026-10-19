@@ -20,7 +20,7 @@ export default function AboutPage() {
     </header>
     <section className="team-page-heading section-pad">
       <nav className="breadcrumbs" aria-label="مسار الصفحة"><Link href="/">الرئيسية</Link><span>/</span><span aria-current="page">من نحن</span></nav>
-      <span className="kicker">مكتب الشرق الأوسط وشركاه</span>
+      <span className="kicker">مكتب الشرق الأوسط ومشاركوه</span>
       <h1>من نحن</h1>
       <p>مكتب محاماة واستشارات قانونية في قطر بخبرة إقليمية ونهج عملي يربط القانون باحتياجات الأعمال.</p>
     </section>
