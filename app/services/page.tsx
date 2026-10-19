@@ -3,7 +3,7 @@ import StructuredData from "@/components/structured-data";
 import { absoluteUrl, brandName, breadcrumbSchema, firmSchema, pageMetadata } from "@/lib/seo";
 import { legalServices } from "@/lib/services";
 
-const description = "استعرض الخدمات القانونية التي يقدمها مكتب الشرق الأوسط وشركاه في قطر، بما في ذلك الشركات والعقود، المنازعات والتحكيم، العمل والهجرة، العقارات، التكنولوجيا والطاقة.";
+const description = "استعرض الخدمات القانونية التي يقدمها مكتب الشرق الأوسط ومشاركوه في قطر، بما في ذلك الشركات والعقود، المنازعات والتحكيم، العمل والهجرة، العقارات، التكنولوجيا والطاقة.";
 
 export const metadata = {
   ...pageMetadata("الخدمات القانونية في قطر", description, "/services"),
