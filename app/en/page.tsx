@@ -22,7 +22,7 @@ export default async function EnglishHome() {
       {...firmSchema,name:firmEnglishName,alternateName:["Midlleeast Law Firm","Midlleeast & Partners",firmLegacyEnglishName,firmArabicName],hasOfferCatalog:{"@type":"OfferCatalog",name:"Legal Services",itemListElement:legalServicesEn.map(service=>({"@type":"Offer",itemOffered:{"@type":"Service",name:service.title,url:absoluteUrl(`/en/services/${service.slug}`)}}))}},
       {"@type":"WebSite","@id":absoluteUrl("/#website"),url:absoluteUrl(),name:firmEnglishName,alternateName:["Midlleeast Law Firm","Midlleeast & Partners",firmLegacyEnglishName,firmArabicName],inLanguage:["ar","en"],publisher:{"@id":firmSchema["@id"]}},
       {"@type":"WebPage",url:absoluteUrl("/en"),name:`${firmEnglishName} | Law Firm in Qatar`,description:englishDescription,inLanguage:"en",isPartOf:{"@id":absoluteUrl("/#website")},about:{"@id":firmSchema["@id"]}},
-      {"@type":"SiteNavigationElement",name:["About Us","Legal Services","Our Team","News","Legal Consultation"],url:[absoluteUrl("/en/about"),absoluteUrl("/en/services"),absoluteUrl("/en/team"),absoluteUrl("/en/news"),absoluteUrl("/consultation")]}
+      {"@type":"SiteNavigationElement",name:["About Us","Legal Services","Our Team","News","Contact Us","Legal Consultation"],url:[absoluteUrl("/en/about"),absoluteUrl("/en/services"),absoluteUrl("/en/team"),absoluteUrl("/en/news"),absoluteUrl("/en/contact"),absoluteUrl("/consultation")]}
     ]}}/>
     <HomePageEn members={members} news={news} partners={partners}/>
   </>;
