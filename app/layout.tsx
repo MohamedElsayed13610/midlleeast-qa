@@ -13,7 +13,7 @@ import "./hero-brandline.css";
 import "./whatsapp.css";
 import "./remove-legacy-monogram.css";
 
-const officeFavicon = "/favicon.png?v=real-logo-20261020-0238";
+const officeFavicon = "/favicon-green.svg?v=green-logo-20261029";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   robots: { index: !isPreview, follow: true, googleBot: { index: !isPreview, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
-    icon: [{ url: officeFavicon, type: "image/png", sizes: "any" }],
+    icon: [{ url: officeFavicon, type: "image/svg+xml", sizes: "any" }],
     shortcut: officeFavicon,
     apple: officeFavicon,
   },
@@ -35,8 +35,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ar" dir="rtl">
       <head>
-        <link rel="icon" href={officeFavicon} type="image/png" sizes="any" />
-        <link rel="shortcut icon" href={officeFavicon} type="image/png" />
+        <link rel="icon" href={officeFavicon} type="image/svg+xml" sizes="any" />
+        <link rel="shortcut icon" href={officeFavicon} type="image/svg+xml" />
         <link rel="apple-touch-icon" href={officeFavicon} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
